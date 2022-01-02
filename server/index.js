@@ -84,7 +84,7 @@ function setupWebSocket(server) {
   });
 }
 // const server = http.createServer(app);
-setupWebSocket(app);
+//setupWebSocket(app);
 
 // const wss = new Server({ noServer: true });
 
