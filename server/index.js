@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 
 // Priority serve any static files.
-app.use(express.static(path.resolve(__dirname, '../build')));
+app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
 
 // Answer API requests.
 app.get('/api', function (req, res) {
@@ -18,7 +18,7 @@ app.get('/api', function (req, res) {
 
 // All remaining requests return the React app, so it can handle routing.
 app.get('*', function(request, response) {
-  response.sendFile(path.resolve(__dirname, '../build', 'index.html'));
+  response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
 });
 
 app.listen(PORT, function () {
