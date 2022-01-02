@@ -12,8 +12,8 @@
     "web-vitals": "^2.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "node server",
+    "build": "cd omnipod_stash/ && npm install && npm run build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
