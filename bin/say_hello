@@ -1,6 +1,18 @@
 #! /app/.heroku/node/bin/node
 function sayHello() {
     console.log('Hello');
+    const fs = require('fs');
+
+    let student = { 
+        name: 'Mike',
+        age: 23, 
+        gender: 'Male',
+        department: 'English',
+        car: 'Honda' 
+    };
+    
+    let data = JSON.stringify(student, null, 2);
+    fs.writeFileSync('Kalles.json', data);
 }
 sayHello();
 process.exit();
