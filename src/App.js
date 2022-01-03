@@ -1,18 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
 
-// import WebSocket from 'ws';
-// const ws = new WebSocket('ws://omnipodstash.herokuapp.com');
-
-
-// ws.on('open', function open() {
-//   ws.send('something');
-// });
-
-// ws.on('message', function message(data) {
-//   console.log('received: %s', data);
-// });
-
 function App() {
   return (
     <div className="App">
@@ -27,7 +15,7 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React Kalle_2!
+          Learn React Kalle!
         </a>
       </header>
     </div>
