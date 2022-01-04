@@ -1,0 +1,24 @@
+#! /app/.heroku/node/bin/node
+function checkOmnipodState() {
+    // we create 'users' collection in newdb database
+    var url = "mongodb://localhost:27017/nightscout";
+    
+    // create a client to mongodb
+    var MongoClient = require('mongodb').MongoClient;
+    
+    // make client connect to mongo service
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        // db pointing to newdb
+        console.log("Switched to "+db.databaseName+" database");
+        // create 'users' collection in newdb database
+        db.createCollection("omnipodstash", function(err, result) {
+            if (err) throw err;
+            console.log("Collection is created!");
+            // close the connection to db when you are done with it
+            db.close();
+        });
+    });
+}
+checkOmnipodState();
+process.exit();
