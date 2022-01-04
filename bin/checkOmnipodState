@@ -1,9 +1,5 @@
 #! /app/.heroku/node/bin/node
 
-//read env-files
-const dotenv = require('dotenv');
-dotenv.config();
-
 function sendEmail(omnipodCount) {
     console.log("You are running low on pods!!! \n Notify owner to get more!");
     var nodemailer = require('nodemailer');
