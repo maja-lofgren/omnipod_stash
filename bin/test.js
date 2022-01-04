@@ -1,6 +1,39 @@
+//run with: node bin/test.js
+
+//read env-files
+const dotenv = require('dotenv');
+dotenv.config();
+
+function sendEmail(omnipodCount) {
+    console.log("You are running low on pods!!! \n Notify owner to get more!");
+    var nodemailer = require('nodemailer');
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_FROM,
+            pass: process.env.EMAIL_FROM_PASS
+        }
+    });
+
+    var mailOptions = {
+        from: process.env.EMAIL_FROM,
+        to: process.env.EMAIL_TO,
+        subject: 'Dags att beställa poddar!',
+        text: 'Du har nu bara: ' + omnipodCount + " kvar..."
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+}
+
 function checkOmnipodState() {
     // we create 'users' collection in newdb database
-    var url = "mongodb://localhost:27017/nightscout";
+    var url = process.env.CONNSTR_mongo;
 
     // create a client to mongodb
     var MongoClient = require('mongodb').MongoClient;
@@ -71,6 +104,11 @@ function checkOmnipodState() {
                                     let newUsedPods = doc.count;
                                     console.log("newUsedPods:" + newUsedPods);
 
+                                    let omnipodCount = count - newUsedPods;
+                                    if (omnipodCount < 3) {
+                                        //TODO notify user (email, telegram...? )
+                                        sendEmail(omnipodCount);
+                                    }
                                     //fetch date of last used pod: 
                                     db.collection("treatments")
                                         .find({}, { projection: { created_at: 1 } })
@@ -84,7 +122,7 @@ function checkOmnipodState() {
                                                 var dbEntity = {
                                                     date: new Date().toISOString(),
                                                     diff: -newUsedPods,
-                                                    OmnipodCount: count - newUsedPods,
+                                                    OmnipodCount: omnipodCount,
                                                     LastKnownPodChange: lastPodChange//"2021-10-11T16:18:08Z"
                                                 };
                                                 //update omnipodstash with latest: 
@@ -119,7 +157,7 @@ function checkOmnipodState() {
                                         var dbEntity = {
                                             date: new Date().toISOString(),
                                             diff: 0,
-                                            OmnipodCount: 0,
+                                            OmnipodCount: 7,
                                             LastKnownPodChange: lastPodChange
                                         };
                                         //update db: 
@@ -127,10 +165,12 @@ function checkOmnipodState() {
                                             if (err) throw err;
                                             console.log("1 document inserted:");
                                             console.log(dbEntity);
+                                            sendEmail(0);
                                             // close the connection to db when you are done with it
                                             dbClient.close();
                                         });
                                     });
+                                    
 
                         }
 
