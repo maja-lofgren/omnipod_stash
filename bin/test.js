@@ -1,6 +1,6 @@
 //run with: node bin/test.js
 
-//read env-files
+//read env-files (not used by heroku task!)
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -58,7 +58,7 @@ async function checkOmnipodState() {
         }
         else {
             dbClient.close();
-            throw err;
+            process.exit();//for heroku
         }
     }
     var count = 0;
@@ -101,7 +101,7 @@ async function checkOmnipodState() {
             if (docTreatments == null) {
                 console.log("no new pod found");
                 dbClient.close();
-                return;
+                process.exit();//for heroku
             }
             let newUsedPods = docTreatments.count;
             console.log("newUsedPods:" + newUsedPods);
@@ -110,6 +110,8 @@ async function checkOmnipodState() {
             if (omnipodCount < 3) {
                 //TODO notify user (email, telegram...? )
                 sendEmail(omnipodCount);
+                //give it some time before exit...
+                await new Promise(resolve => setTimeout(resolve, 5000));
             }
             //fetch date of last used pod: 
             let docLastUsedPod = await db.collection("treatments")
@@ -155,6 +157,8 @@ async function checkOmnipodState() {
             console.log("1 document inserted:");
             console.log(dbEntity);
             sendEmail(0);
+            //give it some time before exit...
+            await new Promise(resolve => setTimeout(resolve, 5000));
             // close the connection to db when you are done with it
         }
 
@@ -164,6 +168,7 @@ async function checkOmnipodState() {
     } finally {
         // close the connection to db when you are done with it
         dbClient.close();
+        process.exit();//for heroku
     }
 
 }
