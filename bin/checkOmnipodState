@@ -146,7 +146,7 @@ async function checkOmnipodState() {
             var dbEntity = {
                 date: new Date().toISOString(),
                 diff: 0,
-                OmnipodCount: 7,
+                OmnipodCount: 0,
                 LastKnownPodChange: lastPodChange
             };
             //update db: 

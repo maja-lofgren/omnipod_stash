@@ -15,6 +15,7 @@ function sendEmail(omnipodCount) {
         }
     });
 
+    //TODO: fixa mejlen så att den innehåller länk till api't där du lägger till x antal poddar.
     var mailOptions = {
         from: process.env.EMAIL_FROM,
         to: process.env.EMAIL_TO,
@@ -149,17 +150,17 @@ async function checkOmnipodState() {
             var dbEntity = {
                 date: new Date().toISOString(),
                 diff: 0,
-                OmnipodCount: 7,
+                OmnipodCount: 0,
                 LastKnownPodChange: lastPodChange
             };
             //update db: 
             await db.collection("omnipodstash").insertOne(dbEntity);
             console.log("1 document inserted:");
             console.log(dbEntity);
+            //send first email to notify user that it works...
             sendEmail(0);
-            //give it some time before exit...
+            //give email service some time before exit...
             await new Promise(resolve => setTimeout(resolve, 5000));
-            // close the connection to db when you are done with it
         }
 
 
