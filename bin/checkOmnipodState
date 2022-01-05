@@ -54,6 +54,7 @@ async function checkOmnipodState() {
         }
         else {
             dbClient.close();
+            process.exit();
             throw err;
         }
     }
@@ -95,6 +96,7 @@ async function checkOmnipodState() {
             if (docTreatments == null) {
                 console.log("no new pod found");
                 dbClient.close();
+                process.exit();
                 return;
             }
             let newUsedPods = docTreatments.count;
@@ -156,8 +158,8 @@ async function checkOmnipodState() {
     } finally {
         // close the connection to db when you are done with it
         dbClient.close();
+        process.exit();
     }
 
 }
 checkOmnipodState();
-process.exit();
