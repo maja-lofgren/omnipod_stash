@@ -68,7 +68,8 @@ async function checkOmnipodState() {
         let doc = await db.collection("omnipodstash")
             .find({}, { projection: { _id: 0 } })
             .sort({ $natural: -1 }) //bottomsup
-            .limit(1);
+            .limit(1)
+            .next();
 
         if (doc != null && doc.hasOwnProperty('OmnipodCount')) {
             count = doc.OmnipodCount;
@@ -95,7 +96,8 @@ async function checkOmnipodState() {
                             "count": { "$sum": 1 }
                         }
                     }
-                ]);
+                ])
+                .next();
             if (docTreatments == null) {
                 console.log("no new pod found");
                 dbClient.close();
@@ -111,9 +113,10 @@ async function checkOmnipodState() {
             }
             //fetch date of last used pod: 
             let docLastUsedPod = await db.collection("treatments")
-                .find({}, { projection: { created_at: 1 } })
+                .find({eventType: "Insulin Change"}, { projection: { created_at: 1 } })
                 .sort({ $natural: -1 })
-                .limit(1);
+                .limit(1)
+                .next();
 
             let lastPodChange = docLastUsedPod.created_at;
             //create new db-object
@@ -135,9 +138,10 @@ async function checkOmnipodState() {
             //update with latest pod and zero stash:
             //fetch date of last used pod: 
             let doclastUsedPod = await db.collection("treatments")
-                .find({}, { projection: { created_at: 1 } })
+                .find({eventType: "Insulin Change"}, { projection: { created_at: 1 } })
                 .sort({ $natural: -1 })
-                .limit(1);
+                .limit(1)
+                .next();
 
             let lastPodChange = doclastUsedPod.created_at;
             var dbEntity = {
