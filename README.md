@@ -2,18 +2,19 @@
 This app keeps track of your omnipod changes and notifies you when your stash is running low. The app connects directly to your Nightscout database once a day to search for pod-changes and loggs them in a separate table.
 
 This app consists of 3 parts: 
-1. Api that handles conection to the database
-2. A single page frontend that lets the user alter current nr of pods
-    - uses the api-backend to access the mongodb
-3. An Heroku scheduled task that polls the db for pod-changes and updates the count of used pods. 
+1. Api-backend that handles conection to the database
+2. A single page app (frontend) that lets the user alter current nr of pods
+    - calls the api-backend to access the NS-db
+3. A Heroku scheduled task that polls the NS-db for pod-changes and updates the count of used pods. 
 
+For now this app does not require a sign in because it only allows the client to update the app-specific table keeping track of the number of pods left in the NS database. Not much fun for a hacker since the only thing you can do with this app is to update your counter of pods so that in worst case scenario you'd gett a notification telling you that you're out of pods even if you're not.  
 
 # debug in visual studio code
 ## To debug the server/index.js with breakpoints
 (breakpoints will not work in the frontend-app!)
 1. build the react frontend first with: 
     - `cd frontend`
-    - `npm build` 
+    - `npm run build` 
 2. run use the configuration "Launch backend" (.vscode/launch.json) with f5 (see bellow) no need to manually run "npm start" first!
 ```
 "configurations": [
