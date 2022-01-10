@@ -12,7 +12,7 @@ function sendEmail(CountLeft) {
     });
 
     var today = new Date();
-    let url = process.env.HEROKU_APP_NAME + ".herokuapp.com";
+    let url = "https://" + process.env.HEROKU_APP_NAME + ".herokuapp.com";
     var htmlContent = 'Du har nu bara: ' + CountLeft + " kvar...<br/>";
     htmlContent += 'Klicka <a href="' + url + '">här</a> för att öppna kontroll-sidan<br/>';
     htmlContent += 'Eller använd snabblänkarna för att lägga till önskat antal sensorer:<br/>'
