@@ -23,7 +23,7 @@ function sendEmail(CountLeft) {
     var mailOptions = {
         from: process.env.EMAIL_FROM,
         to: process.env.EMAIL_TO,
-        subject: 'Dags att beställa fler sensorer! (' + today.getDate() + ")",
+        subject: 'Dags att beställa fler sensorer! (' + today.getDate() + "/" + today.getMonth() + ")",
         //text: 'Du har nu bara: ' + CountLeft + " kvar..."
         html: htmlContent
     };
@@ -124,7 +124,7 @@ async function checkPodState() {
                 dbClient.close();
                 process.exit();//for heroku
             }
-            
+
             //fetch date of last used pod: 
             let docLastUsedPod = await db.collection("treatments")
                 .find({ eventType: "Insulin Change" }, { projection: { created_at: 1 } })

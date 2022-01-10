@@ -95,7 +95,7 @@ export default function Mainpage({ Typ }) {
 
             <div style={{ textAlign: 'center' }}>
                 <div title={"adds x-number of " + Typ + "s to stash (negative or positive number)"}>
-                    <p style={{marginBottom:'-20px',marginTop:'-10px'}}>Register new {Typ}s</p>
+                    <p style={{marginBottom:'-20px',marginTop:'-10px'}}>Add/Remove {Typ}s</p>
                     <br />
                     <input type="text"
                         autoFocus
@@ -112,7 +112,7 @@ export default function Mainpage({ Typ }) {
                 </div>
                 <br />
                 <div title={"Sets current number of " + Typ + "s in stash (positive number)"}>
-                <p style={{marginBottom:'-20px',marginTop:'-10px'}}>Set total {Typ}-count</p>
+                <p style={{marginBottom:'-20px',marginTop:'-10px'}}>Set total nr of {Typ}s</p>
                     <br />
                     <input type="text"
                         value={nrTotal}
@@ -129,7 +129,7 @@ export default function Mainpage({ Typ }) {
             </div>
             <br />
             <div title={"Same as Add " + Typ + "s above, but with predefined values"}>
-                <p style={{ textAlign: 'center' }}> Quick-add</p>
+                <p style={{ textAlign: 'center' }}> Quick-alter</p>
                 <button onClick={() => updateCountAddition(-1)} disabled={!buttonActive}>-1</button>
                 <button onClick={() => updateCountAddition(1)} disabled={!buttonActive}>1</button>
                 <br />
