@@ -2,7 +2,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-async function updatedb(nrOfPodsToAdd) {
+async function updatedb(nrOfPodsToAdd, resetdb=false) {
     var url = process.env.CONNSTR_mongo;
     console.log("adding: " + nrOfPodsToAdd + " to db!");
 
@@ -35,8 +35,10 @@ async function updatedb(nrOfPodsToAdd) {
             .sort({ $natural: -1 }) //bottomsup
             .limit(1)
             .next();
+        if (!resetdb) {
+            count = doc.OmnipodCount;
+        }
 
-        count = doc.OmnipodCount;
         lastKnownPodChange = doc.LastKnownPodChange;
         console.log('count: ' + count);
         console.log('lastKnownPodChange: ' + lastKnownPodChange);
@@ -137,7 +139,7 @@ async function resetCount() {
         return;
     }
     try {
-        
+
         //create new db-object
         var dbEntity = {
             date: new Date().toISOString(),

@@ -23,6 +23,16 @@ app.get('/addtopodcount/:nrOfPodsToAdd', async function (req, res) {
     res.send('{"message":"' + req.params.nrOfPodsToAdd + ' pods added to stash!"}');
 });
 
+app.get('/setpodcount/:nrOfPods', async function (req, res) {
+    console.log(req.params.nrOfPods);
+
+    await dbhelper.updatedb(req.params.nrOfPods, true);
+
+    res.set('Content-Type', 'application/json');
+    res.send('{"message":"Stash is reset to: ' + req.params.nrOfPods + ' pods!"}');
+});
+
+
 // Answer API requests with param ("/addtopodcount/10") 
 // For multiple params ("/addtopodcount?nr=23&type=omnipod") see: https://stackoverflow.com/a/17008027
 app.get('/getpodcount', async function (req, res) {
@@ -32,6 +42,8 @@ app.get('/getpodcount', async function (req, res) {
     res.set('Content-Type', 'application/json');
     res.send('{"podCount":"' + count + '"}');
 });
+
+
 
 app.get('/resetcount', async function (req, res) {
     
