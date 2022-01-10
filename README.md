@@ -57,13 +57,13 @@ open the /frontend-folder in different vscode and run its debug config separatel
 # Heroku env
 Env-variables specified in heroku is accessed with `process.env.ENVNAME`
 
-
-
-
-
-
-
-
+CONNSTR_mongo
+EMAIL_FROM
+EMAIL_FROM_PASS
+EMAIL_TO
+HEROKU_APP_NAME
+PODLIMIT
+SENSORLIMIT
 
 # Getting Started with Create React App
 

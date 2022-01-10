@@ -23,7 +23,7 @@ function sendEmail(CountLeft) {
     var mailOptions = {
         from: process.env.EMAIL_FROM,
         to: process.env.EMAIL_TO,
-        subject: 'Dags att beställa fler sensorer! (' + today.getDate() + "/" + today.getMonth() + ")",
+        subject: 'Dags att beställa fler sensorer! (' + today.getDate() + "/" + today.getMonth()+1 + ")",
         //text: 'Du har nu bara: ' + CountLeft + " kvar..."
         html: htmlContent
     };
