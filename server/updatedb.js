@@ -121,7 +121,7 @@ async function getCount(Typ) {
             .next();
 
         count = doc.PodCount;
-        if(type == "sensor"){
+        if(Typ == "sensor"){
             count = doc.SensorCount;
         }
         console.log('count: ' + count);
