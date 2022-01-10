@@ -23,7 +23,7 @@ For now this app does not require a sign in because it only allows the client to
         "request": "launch",
         "name": "Launch backend",
         "skipFiles": ["<node_internals>/**"],
-        "program": "${workspaceFolder}\\server\\index.js",
+        "program": "${workspaceFolder}/server/index.js",
     },
     {
         "type": "node",
