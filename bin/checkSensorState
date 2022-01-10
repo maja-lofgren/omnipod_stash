@@ -105,12 +105,12 @@ async function checkSensorState() {
                     }
                 ])
                 .next();
-            if (docTreatments == null) {
-                console.log("no new sensors found");
-                dbClient.close();
-                process.exit();//for heroku
+
+            var newUsedcount= 0;
+
+            if (docTreatments != null) {
+                newUsedcount= docTreatments.count;
             }
-            let newUsedcount = docTreatments.count;
             console.log("newUsedSensors:" + newUsedcount);
 
             let sensorCount = count - newUsedcount;

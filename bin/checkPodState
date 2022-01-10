@@ -18,6 +18,7 @@ function sendEmail(CountLeft) {
     htmlContent += 'Eller använd snabblänkarna för att lägga till önskat antal sensorer:<br/>'
     htmlContent += '<a href="' + url + '/addtopodcount/-1">-1</a>        <a href="' + url + '/addtopodcount/1">+1</a>        ';
     htmlContent += '<a href="' + url + '/addtopodcount/5">+5</a>        <a href="' + url + '/addtopodcount/10">+10</a>';
+    htmlContent += '<iframe id="subframe" name="sub" style="display:none;">';
 
     var mailOptions = {
         from: process.env.EMAIL_FROM,
@@ -104,13 +105,12 @@ async function checkPodState() {
                     }
                 ])
                 .next();
-            if (docTreatments == null) {
-                console.log("no new pod found");
-                dbClient.close();
-                process.exit();//for heroku
+            var newUsedcount = 0;
+
+            if (docTreatments != null) {
+                newUsedcount = docTreatments.count;
             }
-            let newUsedPods = docTreatments.count;
-            console.log("newUsedPods:" + newUsedPods);
+            console.log("newUsedSensors:" + newUsedcount);
 
             let omnipodCount = count - newUsedPods;
             if (omnipodCount < process.env.PODLIMIT) {
@@ -121,7 +121,7 @@ async function checkPodState() {
             }
             //fetch date of last used pod: 
             let docLastUsedPod = await db.collection("treatments")
-                .find({eventType: "Insulin Change"}, { projection: { created_at: 1 } })
+                .find({ eventType: "Insulin Change" }, { projection: { created_at: 1 } })
                 .sort({ $natural: -1 })
                 .limit(1)
                 .next();
@@ -150,7 +150,7 @@ async function checkPodState() {
             //update with latest pod and zero stash:
             //fetch date of last used pod: 
             let doclastUsedPod = await db.collection("treatments")
-                .find({eventType: "Insulin Change"}, { projection: { created_at: 1 } })
+                .find({ eventType: "Insulin Change" }, { projection: { created_at: 1 } })
                 .sort({ $natural: -1 })
                 .limit(1)
                 .next();
