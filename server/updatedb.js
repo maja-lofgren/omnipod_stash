@@ -95,7 +95,7 @@ async function getPodCount() {
         console.log(err);
         return;
     }
-    var count = 0;
+    var count = "-";
     var lastKnownPodChange = null;
     try {
         //fetch last entry in omnipodstash

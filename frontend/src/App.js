@@ -1,20 +1,23 @@
 import './App.css';
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 function App() {
 
   const [nrOfPodsToAdd, setNrOfPodsToAdd] = useState();
   const [nrOfPodsTotal, setNrOfPods] = useState();
-  const [podCount, setpodCount] = useState();
+  const [podCount, setpodCount] = useState("-");
   const [buttonActive, setbuttonActive] = useState(true);
 
-  const updatePodCountAddition = async () => {
+  const updatePodCountAddition = async (e) => {
     try {
-      let podsToAdd = nrOfPodsToAdd;
+      var podsToAdd = nrOfPodsToAdd;
+      if (e != null) {
+        podsToAdd = e;
+      }
       setNrOfPodsToAdd("");
       setbuttonActive(false);
-      if(isNaN(+podsToAdd)){
+      if (isNaN(+podsToAdd)) {
         console.log("not a number!");
         alert("Not a number!")
         return;
@@ -23,7 +26,7 @@ function App() {
       await getpodcount();
     } catch (e) {
       console.log(e);
-    } finally{
+    } finally {
       setbuttonActive(true);
     }
   };
@@ -32,8 +35,8 @@ function App() {
       let podsTotal = nrOfPodsTotal;
       setNrOfPods("");
       setbuttonActive(false);
-      
-      if(isNaN(+podsTotal)){
+
+      if (isNaN(+podsTotal)) {
         console.log("not a number!");
         alert("Not a number!")
         return;
@@ -42,7 +45,7 @@ function App() {
       await getpodcount();
     } catch (e) {
       console.log(e);
-    } finally{
+    } finally {
       setbuttonActive(true);
     }
   };
@@ -63,25 +66,49 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          Current pod-count in db: {podCount}
-          <br /><br /> <br />
-          <div style={{ float: 'left' }}>
-            <text style={{marginRight:"5px"}}>Add pods:</text> 
-            <input type="text" value={nrOfPodsToAdd} onChange={(e) => setNrOfPodsToAdd(e.target.value)} style={{ textAlign: 'center', marginRight:"5px", width: '40px' }} />
-            <button onClick={updatePodCountAddition} disabled={!buttonActive}>Add pods!</button>
-            <div style={{ clear: "both" }} />
-          </div>
+      <text style={{ fontSize: "40px" }}>
+        Current pod-count
+        </text>
+        <text style={{ fontSize: "70px" }}>
+          {podCount}
+        </text>
+
+        <br /><br />
+
+        <div style={{ textAlign: 'right' }}>
+          <text>Register new pods:</text>
+          <input type="text"
+            autoFocus
+            value={nrOfPodsToAdd}
+            onChange={(e) => setNrOfPodsToAdd(e.target.value)}
+            style={{ width: '40px', textAlign: 'center' }}
+            title="adds x-number of pods to stash (negative or positive number)"
+          />
+          <button onClick={() => updatePodCountAddition(null)} disabled={!buttonActive}>Add pods</button>
           <br />
           <br />
-          <div style={{ float: 'left' }}>
-            <text style={{marginRight:"5px"}}>Set count:</text> 
-            <input type="text" value={nrOfPodsTotal} onChange={(e) => setNrOfPods(e.target.value)} style={{ textAlign: 'center', marginRight:"5px", width: '40px' }} />
-            <button onClick={setPodCountTotal} disabled={!buttonActive}>Set count!</button>
-            <div style={{ clear: "both" }} />
-          </div>
+          <text style={{ marginRight: "5px" }}>Set total podcount:</text>
+          <input type="text"
+            value={nrOfPodsTotal}
+            onChange={(e) => setNrOfPods(e.target.value)}
+            style={{ width: '40px', textAlign: 'center' }}
+            title="Sets current number of pods in stash (positive number)"
+          />
+          <button onClick={setPodCountTotal} disabled={!buttonActive}>Set pods</button>
+        </div>
+        <br />
+        <br />
+        <div>
+          <p style={{ textAlign: 'center' }}> Quick-add</p>
+          <button onClick={() => updatePodCountAddition(-1)} disabled={!buttonActive}>-1</button>
+          <button onClick={() => updatePodCountAddition(1)} disabled={!buttonActive}>1</button>
           <br />
-        </p>
+          <br />
+          <button onClick={() => updatePodCountAddition(5)} disabled={!buttonActive}>5</button>
+          <button onClick={() => updatePodCountAddition(10)} disabled={!buttonActive}>10</button>
+        </div>
+
+        <br />
 
       </header>
     </div>

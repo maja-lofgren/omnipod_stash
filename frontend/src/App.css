@@ -28,6 +28,23 @@
   color: #61dafb;
 }
 
+input {
+  font-size: calc(10px + 2vmin);
+  padding: 10px;
+  margin-left: 5px;
+  border-radius: 10px;
+  border-style: none;
+}
+button {
+  font-size: calc(10px + 2vmin);
+  margin-left: 10px;
+  padding: 10px;
+  min-width: 170px;
+  border-radius: 10px;
+  border-style: none;
+  cursor: pointer;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
