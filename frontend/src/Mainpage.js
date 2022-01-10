@@ -75,7 +75,7 @@ export default function Mainpage({ Typ }) {
     return (
         <>
             <button onClick={() => navigate('/' + otherSite)}>
-                Change to {otherSite}s
+                Change to {otherSite}
             </button>
             <br />
 
@@ -133,7 +133,8 @@ export default function Mainpage({ Typ }) {
             </div>
 
             <br />
-
+            <text>Email to: {process.env.EMAIL_TO}</text>
+            <text>Send email when count is less than: {Typ == "pods" ? process.env.PODLIMIT : process.env.SENSORLIMIT}</text>
         </>
     )
 }
