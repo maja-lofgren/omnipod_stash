@@ -1,6 +1,6 @@
 #! /app/.heroku/node/bin/node
 
-function sendEmail(omnipodCount) {
+function sendEmail(CountLeft) {
     console.log("You are running low on pods!!! \n Notify owner to get more!");
     var nodemailer = require('nodemailer');
     var transporter = nodemailer.createTransport({
