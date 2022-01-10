@@ -42,13 +42,18 @@ async function updatedb(nrOfPodsToAdd, resetdb=false) {
         lastKnownPodChange = doc.LastKnownPodChange;
         console.log('count: ' + count);
         console.log('lastKnownPodChange: ' + lastKnownPodChange);
-
+        
+        var type = "Manual Add";
+        if(resetdb){
+            type = "Manual SetCount";
+        }
         //create new db-object
         var dbEntity = {
             date: new Date().toISOString(),
             diff: nrOfPodsToAdd,
             OmnipodCount: parseInt(count) + parseInt(nrOfPodsToAdd),
-            LastKnownPodChange: lastKnownPodChange//"2021-10-11T16:18:08Z"
+            LastKnownPodChange: lastKnownPodChange,
+            type: type
         };
 
         //update omnipodstash with latest: 
@@ -146,6 +151,7 @@ async function resetCount() {
             diff: 0,
             OmnipodCount: 0,
             LastKnownPodChange: new Date().toISOString(),
+            type: "Api Reset"
         };
 
         //update omnipodstash with latest: 

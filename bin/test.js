@@ -126,7 +126,8 @@ async function checkOmnipodState() {
                 date: new Date().toISOString(),
                 diff: -newUsedPods,
                 OmnipodCount: omnipodCount,
-                LastKnownPodChange: lastPodChange//"2021-10-11T16:18:08Z"
+                LastKnownPodChange: lastPodChange,
+                type: "Scheduled Task"
             };
 
             //update omnipodstash with latest: 
@@ -150,7 +151,8 @@ async function checkOmnipodState() {
                 date: new Date().toISOString(),
                 diff: 0,
                 OmnipodCount: 7,
-                LastKnownPodChange: lastPodChange
+                LastKnownPodChange: lastPodChange,
+                type: "Scheduled Task"
             };
             //update db: 
             await db.collection("omnipodstash").insertOne(dbEntity);
