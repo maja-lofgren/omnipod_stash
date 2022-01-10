@@ -68,7 +68,7 @@ async function checkSensorState() {
         }
     }
     var count = 0;
-    var lastKnownPodChange = null;
+    var lastKnownChange = null;
     try {
         //fetch last entry in omnipodstash
         let doc = await db.collection("omnipodstash")
@@ -81,7 +81,7 @@ async function checkSensorState() {
             count = doc.SensorCount;
             lastKnownChange = doc.LastKnownSensorChange;
             console.log('count: ' + count);
-            console.log('lastKnownPodChange: ' + lastKnownChange);
+            console.log('lastKnownSensorChange: ' + lastKnownChange);
         }
 
         if (lastKnownChange != null) {
@@ -91,7 +91,7 @@ async function checkSensorState() {
                     {
                         "$match": {
                             "created_at": {
-                                "$gt": lastKnownPodChange
+                                "$gt": lastKnownChange
                             },
                             "eventType": "Sensor Change"
                         }
