@@ -15,6 +15,8 @@ function sendEmail(omnipodCount) {
         }
     });
 
+    
+
     var mailOptions = {
         from: process.env.EMAIL_FROM,
         to: process.env.EMAIL_TO,
@@ -174,4 +176,16 @@ async function checkOmnipodState() {
     }
 
 }
-checkOmnipodState()
+
+function checkOmnipodState2(){
+    var today = new Date();
+    let url = process.env.HEROKU_APP_NAME + ".herokuapp.com";
+    var htmlContent = 'Du har nu bara: ' + 2 + " kvar...<br/>";
+    htmlContent += 'Klicka <a href="' + url + '">här</a> för att öppna kontroll-sidan<br/>';
+    htmlContent += 'Eller använd snabblänkarna för att lägga till önskat antal sensorer:<br/>'
+    htmlContent += '<a href="' + url + '"/addtopodcount/-1">-1</a>  <a href="' + url + '"/addtopodcount/1">+1</a>';
+    htmlContent += '<a href="' + url + '"/addtopodcount/5">+5</a>  <a href="' + url + '"/addtopodcount/10">+10</a>';
+
+    console.log(htmlContent);
+};
+checkOmnipodState2()

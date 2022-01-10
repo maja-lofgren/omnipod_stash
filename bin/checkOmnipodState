@@ -11,11 +11,20 @@ function sendEmail(omnipodCount) {
         }
     });
 
+    var today = new Date();
+    let url = process.env.HEROKU_APP_NAME + ".herokuapp.com";
+    var htmlContent = 'Du har nu bara: ' + CountLeft + " kvar...<br/>";
+    htmlContent += 'Klicka <a href="' + url + '">här</a> för att öppna kontroll-sidan<br/>';
+    htmlContent += 'Eller använd snabblänkarna för att lägga till önskat antal sensorer:<br/>'
+    htmlContent += '<a href="' + url + '"/addtopodcount/-1">-1</a>  <a href="' + url + '"/addtopodcount/1">+1</a>';
+    htmlContent += '<a href="' + url + '"/addtopodcount/5">+5</a>  <a href="' + url + '"/addtopodcount/10">+10</a>';
+
     var mailOptions = {
         from: process.env.EMAIL_FROM,
         to: process.env.EMAIL_TO,
-        subject: 'Dags att beställa poddar!',
-        text: 'Du har nu bara: ' + omnipodCount + " kvar..."
+        subject: 'Dags att beställa fler sensorer! (' + today.getDay() + "/" + today.getMonth() + ")",
+        //text: 'Du har nu bara: ' + CountLeft + " kvar..."
+        html: htmlContent
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -104,7 +113,7 @@ async function checkOmnipodState() {
             console.log("newUsedPods:" + newUsedPods);
 
             let omnipodCount = count - newUsedPods;
-            if (omnipodCount < 3) {
+            if (omnipodCount < process.env.PODLIMIT) {
                 //TODO notify user (email, telegram...? )
                 sendEmail(omnipodCount);
                 //give it some time before exit...
