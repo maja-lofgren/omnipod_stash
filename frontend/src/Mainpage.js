@@ -95,9 +95,10 @@ export default function Mainpage({ Typ }) {
 
             <br /><br />
 
-            <div style={{ textAlign: 'right' }}>
+            <div style={{ textAlign: 'center' }}>
                 <div title={"adds x-number of " + Typ + "s to stash (negative or positive number)"}>
-                    <text>Register new {Typ}s:</text>
+                    <p style={{marginBottom:'-20px',marginTop:'-10px'}}>Register new {Typ}s</p>
+                    <br />
                     <input type="text"
                         autoFocus
                         value={nrToAdd}
@@ -113,7 +114,8 @@ export default function Mainpage({ Typ }) {
                 </div>
                 <br />
                 <div title={"Sets current number of " + Typ + "s in stash (positive number)"}>
-                    <text style={{ marginRight: "5px" }}>Set total {Typ}-count:</text>
+                <p style={{marginBottom:'-20px',marginTop:'-10px'}}>Set total {Typ}-count</p>
+                    <br />
                     <input type="text"
                         value={nrTotal}
                         onChange={(e) => setNrTotal(e.target.value)}
