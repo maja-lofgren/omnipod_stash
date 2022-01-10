@@ -119,6 +119,10 @@ async function checkSensorState() {
                 //give it some time before exit...
                 await new Promise(resolve => setTimeout(resolve, 5000));
             }
+            if(newUsedcount == 0){
+                dbClient.close();
+                process.exit();//for heroku
+            }
             //fetch date of last used: 
             let docLastUsedSensor = await db.collection("treatments")
                 .find({eventType: "Sensor Change"}, { projection: { created_at: 1 } })
