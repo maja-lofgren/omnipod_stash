@@ -17,7 +17,7 @@ app.use(express.static(path.resolve(__dirname, '../frontend/build')));
 app.get('/addtopodcount/:nrOfPodsToAdd', async function (req, res) {
     console.log(req.params.nrOfPodsToAdd);
 
-    await dbhelper.updatedb(req.params.nrOfPodsToAdd);
+    await dbhelper.updatedb(req.params.nrOfPodsToAdd, "pod");
 
     res.set('Content-Type', 'application/json');
     res.send('{"message":"' + req.params.nrOfPodsToAdd + ' pods added to stash!"}');
@@ -26,7 +26,7 @@ app.get('/addtopodcount/:nrOfPodsToAdd', async function (req, res) {
 app.get('/setpodcount/:nrOfPods', async function (req, res) {
     console.log(req.params.nrOfPods);
 
-    await dbhelper.updatedb(req.params.nrOfPods, true);
+    await dbhelper.updatedb(req.params.nrOfPods, "pod", true);
 
     res.set('Content-Type', 'application/json');
     res.send('{"message":"Stash is reset to: ' + req.params.nrOfPods + ' pods!"}');
@@ -37,11 +37,38 @@ app.get('/setpodcount/:nrOfPods', async function (req, res) {
 // For multiple params ("/addtopodcount?nr=23&type=omnipod") see: https://stackoverflow.com/a/17008027
 app.get('/getpodcount', async function (req, res) {
     
-    let count = await dbhelper.getPodCount();
+    let count = await dbhelper.getCount("pod");
 
     res.set('Content-Type', 'application/json');
     res.send('{"podCount":"' + count + '"}');
 });
+
+app.get('/getsensorcount', async function (req, res) {
+    
+    let count = await dbhelper.getCount("sensor");
+
+    res.set('Content-Type', 'application/json');
+    res.send('{"sensorCount":"' + count + '"}');
+});
+
+app.get('/addtosensorcount/:nrOfSensorsToAdd', async function (req, res) {
+    console.log(req.params.nrOfSensorsToAdd);
+
+    await dbhelper.updatedb(req.params.nrOfSensorsToAdd, "sensor");
+
+    res.set('Content-Type', 'application/json');
+    res.send('{"message":"' + req.params.nrOfSensorsToAdd + ' sensors added to stash!"}');
+});
+
+app.get('/setsensorcount/:nrOfSensors', async function (req, res) {
+    console.log(req.params.nrOfSensors);
+
+    await dbhelper.updatedb(req.params.nrOfSensors, "sensor", true);
+
+    res.set('Content-Type', 'application/json');
+    res.send('{"message":"Stash is reset to: ' + req.params.nrOfSensors + ' sensors!"}');
+});
+
 
 
 

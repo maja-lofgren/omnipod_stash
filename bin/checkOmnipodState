@@ -63,13 +63,13 @@ async function checkOmnipodState() {
     try {
         //fetch last entry in omnipodstash
         let doc = await db.collection("omnipodstash")
-            .find({}, { projection: { _id: 0 } })
+            .find({ Type: "sensor" }, { projection: { _id: 0 } })
             .sort({ $natural: -1 }) //bottomsup
             .limit(1)
             .next();
 
-        if (doc != null && doc.hasOwnProperty('OmnipodCount')) {
-            count = doc.OmnipodCount;
+        if (doc != null && doc.hasOwnProperty('PodCount')) {
+            count = doc.PodCount;
             lastKnownPodChange = doc.LastKnownPodChange;
             console.log('count: ' + count);
             console.log('lastKnownPodChange: ' + lastKnownPodChange);
@@ -122,9 +122,12 @@ async function checkOmnipodState() {
             var dbEntity = {
                 date: new Date().toISOString(),
                 diff: -newUsedPods,
-                OmnipodCount: omnipodCount,
+                PodCount: omnipodCount,
+                SensorCount: null,
                 LastKnownPodChange: lastPodChange,
-                type: "Scheduled Task"
+                LastKnownSensorChange: null,
+                operation: "Scheduled Task",
+                Type: "pod"
             };
 
             //update omnipodstash with latest: 
@@ -147,9 +150,10 @@ async function checkOmnipodState() {
             var dbEntity = {
                 date: new Date().toISOString(),
                 diff: 0,
-                OmnipodCount: 7,
+                PodCount: 7,
                 LastKnownPodChange: lastPodChange,
-                type: "Scheduled Task"
+                operation: "Scheduled Task",
+                Type: "pod"
             };
             //update db: 
             await db.collection("omnipodstash").insertOne(dbEntity);
