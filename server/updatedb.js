@@ -96,7 +96,7 @@ async function getPodCount() {
         return;
     }
     var count = 0;
-    var lastKnownPodChange = null;
+    var lastKnownPodChange = new Date().toISOString();
     try {
         //fetch last entry in omnipodstash
         let doc = await db.collection("omnipodstash")
