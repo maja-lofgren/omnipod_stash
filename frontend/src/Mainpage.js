@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 
 export default function Mainpage({ Typ }) {
@@ -8,6 +8,11 @@ export default function Mainpage({ Typ }) {
     const [nrTotal, setNrTotal] = useState();
     const [Count, setCount] = useState("-");
     const [buttonActive, setbuttonActive] = useState(true);
+
+    useEffect(async ()=>{
+        await getCount(); 
+    },[navigate]) //run only on navigation change!
+
     var otherSite = "sensor";
     if (Typ == "sensor") {
         otherSite = "pods";
@@ -19,6 +24,7 @@ export default function Mainpage({ Typ }) {
             if (e != null) {
                 add = e;
             }
+            console.log("adding " + add + "pods");
             setNrToAdd("");
             setbuttonActive(false);
             if (isNaN(+add)) {
@@ -55,6 +61,7 @@ export default function Mainpage({ Typ }) {
     };
     const getCount = async () => {
         try {
+            console.log("getCount of: " + Typ);
             const res = await axios.get('/get' + Typ + 'count');
             if (Typ == "pod") {
                 if (res.data.podCount !== undefined) {
@@ -70,8 +77,8 @@ export default function Mainpage({ Typ }) {
             console.log(e);
         }
     };
-
-    getCount();
+    
+    
     return (
         <>
             <button onClick={() => navigate('/' + otherSite)}>
@@ -80,7 +87,7 @@ export default function Mainpage({ Typ }) {
             <br />
 
             <text style={{ fontSize: "40px" }}>
-                Current {Typ}-count
+                {Typ}-count
             </text>
             <text style={{ fontSize: "70px" }}>
                 {Count}
