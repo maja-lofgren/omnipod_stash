@@ -133,8 +133,8 @@ export default function Mainpage({ Typ }) {
             </div>
 
             <br />
-            <text>Email to: {process.env.EMAIL_TO}</text>
-            <text>Send email when count is less than: {Typ == "pods" ? process.env.PODLIMIT : process.env.SENSORLIMIT}</text>
+            {/* <text>Email to: {process.env.EMAIL_TO}</text>
+            <text>Send email when count is less than: {Typ == "pods" ? process.env.PODLIMIT : process.env.SENSORLIMIT}</text> */}
         </>
     )
 }
