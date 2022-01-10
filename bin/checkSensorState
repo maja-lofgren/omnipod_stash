@@ -16,8 +16,9 @@ function sendEmail(CountLeft) {
     var htmlContent = 'Du har nu bara: ' + CountLeft + " kvar...<br/>";
     htmlContent += 'Klicka <a href="' + url + '">här</a> för att öppna kontroll-sidan<br/>';
     htmlContent += 'Eller använd snabblänkarna för att lägga till önskat antal sensorer:<br/>'
-    htmlContent += '<a href="' + url + '"/addtosensorcount/-1">-1</a>  <a href="' + url + '"/addtosensorcount/1">+1</a>';
-    htmlContent += '<a href="' + url + '"/addtosensorcount/5">+5</a>  <a href="' + url + '"/addtosensorcount/10">+10</a>';
+    htmlContent += '<a href="' + url + '/addtosensorcount/-1" target="sub">-1</a>        <a href="' + url + '/addtosensorcount/1" target="sub">+1</a>        ';
+    htmlContent += '<a href="' + url + '/addtosensorcount/5" target="sub">+5</a>        <a href="' + url + '/addtosensorcount/10" target="sub">+10</a>';
+    htmlContent += '<iframe id="subframe" name="sub" style="display:none;">';
 
     var mailOptions = {
         from: process.env.EMAIL_FROM,
