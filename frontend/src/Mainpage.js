@@ -6,10 +6,11 @@ export default function Mainpage({ Typ }) {
     const navigate = useNavigate();
     const [nrToAdd, setNrToAdd] = useState();
     const [nrTotal, setNrTotal] = useState();
-    const [Count, setCount] = useState("-");
+    const [totalCount, setTotalCount] = useState("-");
     const [buttonActive, setbuttonActive] = useState(true);
 
     useEffect(async ()=>{
+        setTotalCount("-")
         await getCount(); 
     },[navigate]) //run only on navigation change!
 
@@ -65,11 +66,11 @@ export default function Mainpage({ Typ }) {
             const res = await axios.get('/get' + Typ + 'count');
             if (Typ == "pod") {
                 if (res.data.podCount !== undefined) {
-                    setCount(res.data.podCount);
+                    setTotalCount(res.data.podCount);
                 }
             } else {
                 if (res.data.sensorCount !== undefined) {
-                    setCount(res.data.sensorCount);
+                    setTotalCount(res.data.sensorCount);
                 }
             }
 
@@ -81,16 +82,13 @@ export default function Mainpage({ Typ }) {
     
     return (
         <>
-            <button onClick={() => navigate('/' + otherSite)}>
-                Change to {otherSite}
-            </button>
-            <br />
+            
 
             <text style={{ fontSize: "40px" }}>
                 {Typ}-count
             </text>
             <text style={{ fontSize: "70px" }}>
-                {Count}
+                {totalCount}
             </text>
 
             <br /><br />
@@ -130,7 +128,6 @@ export default function Mainpage({ Typ }) {
                 </div>
             </div>
             <br />
-            <br />
             <div title={"Same as Add " + Typ + "s above, but with predefined values"}>
                 <p style={{ textAlign: 'center' }}> Quick-add</p>
                 <button onClick={() => updateCountAddition(-1)} disabled={!buttonActive}>-1</button>
@@ -141,6 +138,11 @@ export default function Mainpage({ Typ }) {
                 <button onClick={() => updateCountAddition(10)} disabled={!buttonActive}>10</button>
             </div>
 
+            <br />
+            <br />
+            <button onClick={() => navigate('/' + otherSite)}>
+                Change to {otherSite}
+            </button>
             <br />
             {/* <text>Email to: {process.env.EMAIL_TO}</text>
             <text>Send email when count is less than: {Typ == "pods" ? process.env.PODLIMIT : process.env.SENSORLIMIT}</text> */}
