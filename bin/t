@@ -2,13 +2,13 @@
 
 //import { atest } from "./atest.js";
 //import { btest } from "/bin/atest.js";
-
+const a = require("./atest.js");
 function t() {
     console.log("nu kallar jag på filen: ");
     try{    
-        //const a = require("./atest.js");
+        //
         console.log("hm");
-        //a.atest("Kalle");
+        a.atest("Kalle");
     }
     catch(e){
         console.log("error!")
