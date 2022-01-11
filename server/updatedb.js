@@ -29,6 +29,7 @@ async function updatedb(nrToAdd, Typ, resetdb = false) {
     var count = 0;
     var lastKnownChange = new Date().toISOString();
     try {
+        
         //fetch last entry in omnipodstash
         let doc = await db.collection("omnipodstash")
             .find({ Type: Typ }, { projection: { _id: 0 } })
@@ -37,14 +38,8 @@ async function updatedb(nrToAdd, Typ, resetdb = false) {
             .next();
         if (doc != null) {
             if (!resetdb) {
-                if(Typ == "pod"){
-                    count = doc.PodCount;
-                    lastKnownChange = doc.LastKnownPodChange;
-                    
-                }else{
-                    count = doc.SensorCount;
-                    lastKnownChange = doc.LastKnownSensorChange;
-                }
+                count = doc.Count;
+                lastKnownChange = doc.LastKnownChange;
             }
             console.log('count: ' + count);
             console.log('lastKnownChange: ' + lastKnownChange);
@@ -54,25 +49,16 @@ async function updatedb(nrToAdd, Typ, resetdb = false) {
         if (resetdb) {
             operation = "Manual SetCount";
         }
-        
+
         //create new db-object
         var dbEntity = {
             date: new Date().toISOString(),
             diff: nrToAdd,
-            PodCount:null,
-            SensorCount:null,
-            LastKnownPodChange: null,
-            LastKnownSensorChange: null,
-            operation: operation,
+            Count: parseInt(count) + parseInt(nrToAdd),
+            LastKnownChange: lastKnownChange,
+            Operation: operation,
             Type: Typ
         };
-        if(Typ == "pod"){
-            dbEntity.PodCount = parseInt(count) + parseInt(nrToAdd);
-            dbEntity.LastKnownPodChange = lastKnownChange;
-        }else{
-            dbEntity.SensorCount = parseInt(count) + parseInt(nrToAdd);
-            dbEntity.LastKnownSensorChange = lastKnownChange;
-        }
         //update omnipodstash with latest: 
         await db.collection("omnipodstash").insertOne(dbEntity);
 
@@ -120,10 +106,7 @@ async function getCount(Typ) {
             .limit(1)
             .next();
 
-        count = doc.PodCount;
-        if(Typ == "sensor"){
-            count = doc.SensorCount;
-        }
+        count = doc.Count;
         console.log('count: ' + count);
 
     } catch (err) {
@@ -136,7 +119,7 @@ async function getCount(Typ) {
     return count;
 };
 
-async function resetCount() {
+async function resetCount(Typ) {
     var url = process.env.CONNSTR_mongo;
     console.log("resetting db counter to 0");
 
@@ -166,12 +149,10 @@ async function resetCount() {
         var dbEntity = {
             date: new Date().toISOString(),
             diff: 0,
-            PodCount: 0,
-            SensorCount: 0,
-            LastKnownPodChange: new Date().toISOString(),
-            LastKnownSensorChange: new Date().toISOString(),
-            operation: "Api Reset",
-            Type: "Both"
+            Count: 0,
+            LastKnownChange: new Date().toISOString(),
+            Operation: "Api Reset",
+            Type: Typ
         };
 
         //update omnipodstash with latest: 

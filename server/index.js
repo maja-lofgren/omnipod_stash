@@ -72,12 +72,12 @@ app.get('/setsensorcount/:nrOfSensors', async function (req, res) {
 
 
 
-app.get('/resetcount', async function (req, res) {
+app.get('/resetcount/:typ', async function (req, res) {
     
-    await dbhelper.resetCount();
+    await dbhelper.resetCount(req.params.typ);
 
     res.set('Content-Type', 'application/json');
-    res.send('{"podCount":0"}');
+    res.send('{"' + req.params.typ + '-Count":0"}');
 });
 // All remaining requests return the React app, so it can handle routing.
 app.get('*', function (request, response) {
