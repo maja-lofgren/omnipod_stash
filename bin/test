@@ -6,9 +6,9 @@
 function test() {
     console.log("nu kallar jag på filen: ");
     try{    
-        const a = require("./atest.js");
-
-        a.atest("Kalle");
+        //const a = require("./atest.js");
+console.log("hm");
+        //a.atest("Kalle");
     }
     catch(e){
         console.log("error!")
