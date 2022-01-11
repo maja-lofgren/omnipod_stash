@@ -20,6 +20,7 @@ function test() {
         console.log("error i btest också!")
         console.log(e);
     }
+    process.exit();
+
 }
 test();
-process.exit();
