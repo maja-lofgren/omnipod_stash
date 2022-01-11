@@ -1,9 +1,25 @@
 #! /app/.heroku/node/bin/node
 
-const a = require("./atest.js")
+import { atest } from "./atest.js";
+import { btest } from "/bin/atest.js";
 
 function test() {
-    a.atest("Kalle");
+    console.log("nu kallar jag på filen: ");
+    try{    
+        atest("Kalle");
+    }
+    catch(e){
+        console.log("error!")
+        console.log(e);
+    }
+    console.log("testar btest:");
+    try{    
+        btest("Kalle");
+    }
+    catch(e){
+        console.log("error i btest också!")
+        console.log(e);
+    }
 }
 test();
 process.exit();
