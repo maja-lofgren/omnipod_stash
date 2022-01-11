@@ -153,13 +153,13 @@ async function checkSensorState() {
             //first time = omnipodstash is empty.
             //update with latest sensor and zero stash:
             //fetch date of last used pod: 
-            let doclastUsedPod = await db.collection("treatments")
+            let doclastUsed = await db.collection("treatments")
                 .find({eventType: "Sensor Change"}, { projection: { created_at: 1 } })
                 .sort({ $natural: -1 })
                 .limit(1)
                 .next();
 
-            let lastPodChange = doclastUsedPod.created_at;
+            let lastPodChange = doclastUsed.created_at;
             var dbEntity = {
                 date: new Date().toISOString(),
                 diff: 0,
