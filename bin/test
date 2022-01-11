@@ -1,25 +1,26 @@
 #! /app/.heroku/node/bin/node
 
-import { atest } from "./atest.js";
-import { btest } from "/bin/atest.js";
+//import { atest } from "./atest.js";
+//import { btest } from "/bin/atest.js";
+const a = require("./atest.js");
 
 function test() {
     console.log("nu kallar jag på filen: ");
     try{    
-        atest("Kalle");
+        a.atest("Kalle");
     }
     catch(e){
         console.log("error!")
         console.log(e);
     }
-    console.log("testar btest:");
-    try{    
-        btest("Kalle");
-    }
-    catch(e){
-        console.log("error i btest också!")
-        console.log(e);
-    }
+    // console.log("testar btest:");
+    // try{    
+    //     btest("Kalle");
+    // }
+    // catch(e){
+    //     console.log("error i btest också!")
+    //     console.log(e);
+    // }
     process.exit();
 
 }
