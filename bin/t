@@ -1,0 +1,28 @@
+#! /app/.heroku/node/bin/node
+
+//import { atest } from "./atest.js";
+//import { btest } from "/bin/atest.js";
+
+function t() {
+    console.log("nu kallar jag på filen: ");
+    try{    
+        //const a = require("./atest.js");
+        console.log("hm");
+        //a.atest("Kalle");
+    }
+    catch(e){
+        console.log("error!")
+        console.log(e);
+    }
+    // console.log("testar btest:");
+    // try{    
+    //     btest("Kalle");
+    // }
+    // catch(e){
+    //     console.log("error i btest också!")
+    //     console.log(e);
+    // }
+
+}
+t();
+process.exit();
