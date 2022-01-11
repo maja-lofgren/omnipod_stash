@@ -126,27 +126,19 @@ async function checkState(Typ) {
         } else {
             //first time = omnipodstash is empty.
             //update with latest sensor and zero stash:
-            //fetch date of last used pod: 
-            let doclastUsed = await db.collection("treatments")
-                .find({ eventType: eType }, { projection: { created_at: 1 } })
-                .sort({ $natural: -1 })
-                .limit(1)
-                .next();
 
-            let lastChange = doclastUsed.created_at;
             var dbEntity = {
                 date: new Date().toISOString(),
                 diff: 0,
                 PodCount: 0,
                 Count: 0,
-                LastKnownChange: lastChange,
-                operation: "Scheduled Task " + Typ,
+                LastKnownChange: new Date().toISOString(),
+                Operation: "Scheduled Task " + Typ,
                 Type: Typ
             };
             //update db: 
             await db.collection("omnipodstash").insertOne(dbEntity);
             console.log("1 document inserted:");
-            console.log(dbEntity);
             sendEmail(0, Typ);
             //give it some time before exit...
             await new Promise(resolve => setTimeout(resolve, 5000));
