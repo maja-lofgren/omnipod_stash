@@ -20,7 +20,7 @@ export default function Mainpage({ Typ }) {
             if (e != null) {
                 add = e;
             }
-            console.log("adding " + add + "pods");
+            console.log("adding " + add);
             setNrToAdd("");
             setbuttonActive(false);
             if (isNaN(+add)) {
@@ -59,14 +59,9 @@ export default function Mainpage({ Typ }) {
         try {
             console.log("getCount of: " + Typ);
             const res = await axios.get('/get' + Typ + 'count');
-            if (Typ == "pod") {
-                if (res.data.podCount !== undefined) {
-                    setTotalCount(res.data.podCount);
-                }
-            } else {
-                if (res.data.sensorCount !== undefined) {
-                    setTotalCount(res.data.sensorCount);
-                }
+            
+            if (res.data.Count !== undefined) {
+                setTotalCount(res.data.Count);
             }
 
         } catch (e) {
