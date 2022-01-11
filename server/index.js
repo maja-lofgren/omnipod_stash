@@ -40,7 +40,7 @@ app.get('/getpodcount', async function (req, res) {
     let count = await dbhelper.getCount("pod");
 
     res.set('Content-Type', 'application/json');
-    res.send('{"podCount":"' + count + '"}');
+    res.send('{"Count":"' + count + '"}');
 });
 
 //sensor:
@@ -68,7 +68,7 @@ app.get('/getsensorcount', async function (req, res) {
     let count = await dbhelper.getCount("sensor");
 
     res.set('Content-Type', 'application/json');
-    res.send('{"sensorCount":"' + count + '"}');
+    res.send('{"Count":"' + count + '"}');
 });
 
 //insu:
@@ -96,7 +96,7 @@ app.get('/getinsulincount', async function (req, res) {
     let count = await dbhelper.getCount("insulin");
 
     res.set('Content-Type', 'application/json');
-    res.send('{"insuCount":"' + count + '"}');
+    res.send('{"Count":"' + count + '"}');
 });
 
 //reset:

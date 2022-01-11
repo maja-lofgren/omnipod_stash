@@ -52,6 +52,9 @@ async function checkState(Typ) {
         if (Typ == "pod") {
             eType = "Insulin Change";
             typeLimit = process.env.PODLIMIT;
+        }else if(Typ == "insulin"){
+            eType = null; //TODO vad göra här?
+            typeLimit = process.env.INSULINLIMIT;
         }
         if (lastKnownChange != null) {
             //fetch nr of new changes: 

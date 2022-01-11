@@ -74,7 +74,7 @@ export default function Mainpage({ Typ }) {
         <>
             <div>
                 <button
-                    onClick={() => navigate('/pods')}
+                    onClick={() => navigate('/pod')}
                     disabled={Typ == "pod"}
                     className="tabBtn">Pods</button>
                 <button
