@@ -52,37 +52,40 @@ async function checkState(Typ) {
         if (Typ == "pod") {
             eType = "Insulin Change";
             typeLimit = process.env.PODLIMIT;
-        }else if(Typ == "insulin"){
+        } else if (Typ == "insulin") {
             eType = null; //TODO vad göra här?
             typeLimit = process.env.INSULINLIMIT;
         }
         if (lastKnownChange != null) {
-            //fetch nr of new changes: 
-            let docTreatments = await db.collection("treatments")
-                .aggregate([
-                    {
-                        "$match": {
-                            "created_at": {
-                                "$gt": lastKnownChange
-                            },
-                            "eventType": eType
-                        }
-                    },
-                    {
-                        "$group": {
-                            "_id": "$eventType",
-                            "count": { "$sum": 1 }
-                        }
-                    }
-                ])
-                .next();
-
             var newUsedcount = 0;
+            if (Typ != "insulin") {
+                //fetch nr of new changes: 
+                let docTreatments = await db.collection("treatments")
+                    .aggregate([
+                        {
+                            "$match": {
+                                "created_at": {
+                                    "$gt": lastKnownChange
+                                },
+                                "eventType": eType
+                            }
+                        },
+                        {
+                            "$group": {
+                                "_id": "$eventType",
+                                "count": { "$sum": 1 }
+                            }
+                        }
+                    ])
+                    .next();
 
-            if (docTreatments != null) {
-                newUsedcount = docTreatments.count;
+
+                if (docTreatments != null) {
+                    newUsedcount = docTreatments.count;
+                }
+                console.log("newUsed" + Typ + ":" + newUsedcount);
+
             }
-            console.log("newUsed" + Typ + ":" + newUsedcount);
 
             let typeCount = count - newUsedcount;
 
