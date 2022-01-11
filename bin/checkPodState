@@ -16,14 +16,14 @@ function sendEmail(CountLeft) {
     let url = "https://" + process.env.HEROKU_APP_NAME + ".herokuapp.com";
     var htmlContent = 'Du har nu bara: ' + CountLeft + " kvar...<br/>";
     htmlContent += 'Klicka <a href="' + url + '/pods">här</a> för att öppna kontroll-sidan<br/>';
-    htmlContent += 'Eller använd snabblänkarna för att lägga till önskat antal sensorer:<br/>'
+    htmlContent += 'Eller använd snabblänkarna för att lägga till önskat antal poddar:<br/>'
     htmlContent += '<a href="' + url + '/addtopodcount/-1" style="margin-right:15px;">-1</a><a href="' + url + '/addtopodcount/1" style="margin-right:15px;">+1</a>        ';
     htmlContent += '<a href="' + url + '/addtopodcount/5" style="margin-right:15px;">+5</a><a href="' + url + '/addtopodcount/10" style="margin-right:15px;">+10</a>';
 
     var mailOptions = {
         from: process.env.EMAIL_FROM,
         to: process.env.EMAIL_TO,
-        subject: 'Dags att beställa fler sensorer! (' + today.getDate() + "/" + today.getMonth()+1 + ")",
+        subject: 'Dags att beställa fler poddar! (' + today.getDate() + "/" + today.getMonth()+1 + ")",
         //text: 'Du har nu bara: ' + CountLeft + " kvar..."
         html: htmlContent
     };
@@ -73,7 +73,7 @@ async function checkPodState() {
     try {
         //fetch last entry in omnipodstash
         let doc = await db.collection("omnipodstash")
-            .find({ Type: "sensor" }, { projection: { _id: 0 } })
+            .find({ Type: "pod" }, { projection: { _id: 0 } })
             .sort({ $natural: -1 }) //bottomsup
             .limit(1)
             .next();
