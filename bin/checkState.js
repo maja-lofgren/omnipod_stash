@@ -130,7 +130,6 @@ async function checkState(Typ) {
             var dbEntity = {
                 date: new Date().toISOString(),
                 diff: 0,
-                PodCount: 0,
                 Count: 0,
                 LastKnownChange: new Date().toISOString(),
                 Operation: "Scheduled Task " + Typ,
