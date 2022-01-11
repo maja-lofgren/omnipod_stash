@@ -1,7 +1,7 @@
 #! /app/.heroku/node/bin/node
 
-function sendEmail(CountLeft) {
-    console.log("You are running low on Sensors!!! \n Notify owner to get more!");
+function sendEmail(CountLeft, Typ) {
+    console.log("You are running low on " + Typ + "!!! \n Notify owner to get more!");
     var nodemailer = require('nodemailer');
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -14,15 +14,15 @@ function sendEmail(CountLeft) {
     var today = new Date();
     let url = "https://" + process.env.HEROKU_APP_NAME + ".herokuapp.com";
     var htmlContent = 'Du har nu bara: ' + CountLeft + " kvar...<br/>";
-    htmlContent += 'Klicka <a href="' + url + '/sensor">här</a> för att öppna kontroll-sidan<br/>';
-    htmlContent += 'Eller använd snabblänkarna för att lägga till önskat antal sensorer:<br/>'
-    htmlContent += '<a href="' + url + '/addtosensorcount/-1" style="margin-right:15px;">-1</a><a href="' + url + '/addtosensorcount/1" style="margin-right:15px;">+1</a>        ';
-    htmlContent += '<a href="' + url + '/addtosensorcount/5" style="margin-right:15px;">+5</a><a href="' + url + '/addtosensorcount/10" style="margin-right:15px;">+10</a>';
+    htmlContent += 'Klicka <a href="' + url + '/' + Typ + '">här</a> för att öppna kontroll-sidan<br/>';
+    htmlContent += 'Eller använd snabblänkarna för att lägga till önskat antal ' + Typ + 'er:<br/>'
+    htmlContent += '<a href="' + url + '/addto' + Typ + 'count/-1" style="margin-right:15px;">-1</a><a href="' + url + '/addto' + Typ + 'count/1" style="margin-right:15px;">+1</a>        ';
+    htmlContent += '<a href="' + url + '/addto' + Typ + 'count/5" style="margin-right:15px;">+5</a><a href="' + url + '/addto' + Typ + 'count/10" style="margin-right:15px;">+10</a>';
 
     var mailOptions = {
         from: process.env.EMAIL_FROM,
         to: process.env.EMAIL_TO,
-        subject: 'Dags att beställa fler sensorer! (' + today.getDate() + "/" + today.getMonth()+1 + ")",
+        subject: 'Dags att beställa fler ' + Typ + 'er! (' + today.getDate() + "/" + today.getMonth()+1 + ")",
         //text: 'Du har nu bara: ' + CountLeft + " kvar..."
         html: htmlContent
     };
@@ -79,7 +79,7 @@ async function checkSensorState() {
 
         if (doc != null && doc.hasOwnProperty('SensorCount')) {
             count = doc.SensorCount;
-            lastKnownChange = doc.LastKnownSensorChange;
+            lastKnownChange = doc.LastKnownChange;
             console.log('count: ' + count);
             console.log('lastKnownSensorChange: ' + lastKnownChange);
         }
@@ -136,9 +136,9 @@ async function checkSensorState() {
                 date: new Date().toISOString(),
                 diff: -newUsedcount,
                 PodCount: null,
-                SensorCount: sensorCount,
+                Count: sensorCount,
                 LastKnownPodChange: null,
-                LastKnownSensorChange: lastSensorChange,
+                LastKnownChange: lastSensorChange,
                 operation: "Scheduled Task",
                 Type: "sensor"
             };
@@ -166,7 +166,7 @@ async function checkSensorState() {
                 PodCount: 0,
                 SensorCount: 0,
                 LastKnownPodChange: null,
-                LastKnownSensorChange: lastPodChange,
+                LastKnownChange: lastPodChange,
                 operation: "Scheduled Task",
                 Type: "sensor"
             };

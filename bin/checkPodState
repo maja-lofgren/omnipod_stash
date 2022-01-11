@@ -69,7 +69,7 @@ async function checkPodState() {
         }
     }
     var count = 0;
-    var lastKnownPodChange = null;
+    var lastKnownChange = null;
     try {
         //fetch last entry in omnipodstash
         let doc = await db.collection("omnipodstash")
@@ -80,19 +80,19 @@ async function checkPodState() {
 
         if (doc != null && doc.hasOwnProperty('PodCount')) {
             count = doc.PodCount;
-            lastKnownPodChange = doc.LastKnownPodChange;
+            lastKnownChange = doc.LastKnownChange;
             console.log('count: ' + count);
-            console.log('lastKnownPodChange: ' + lastKnownPodChange);
+            console.log('lastKnownChange: ' + lastKnownChange);
         }
 
-        if (lastKnownPodChange != null) {
+        if (lastKnownChange != null) {
             //fetch nr of new pod-changes: 
             let docTreatments = await db.collection("treatments")
                 .aggregate([
                     {
                         "$match": {
                             "created_at": {
-                                "$gt": lastKnownPodChange
+                                "$gt": lastKnownChange
                             },
                             "eventType": "Insulin Change"
                         }
@@ -139,7 +139,7 @@ async function checkPodState() {
                 diff: -newUsedPods,
                 PodCount: omnipodCount,
                 SensorCount: null,
-                LastKnownPodChange: lastPodChange,
+                LastKnownChange: lastPodChange,
                 LastKnownSensorChange: null,
                 operation: "Scheduled Task",
                 Type: "pod"
@@ -167,7 +167,7 @@ async function checkPodState() {
                 diff: 0,
                 PodCount: 0,
                 SensorCount: null,
-                LastKnownPodChange: lastPodChange,
+                LastKnownChange: lastPodChange,
                 LastKnownSensorChange: null,
                 operation: "Scheduled Task",
                 Type: "pod"
