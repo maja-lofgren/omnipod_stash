@@ -1,0 +1,9 @@
+#! /app/.heroku/node/bin/node
+
+const a = require("./atest.js")
+
+function test() {
+    a.atest("Kalle");
+}
+test();
+process.exit();
