@@ -9,15 +9,10 @@ export default function Mainpage({ Typ }) {
     const [totalCount, setTotalCount] = useState("-");
     const [buttonActive, setbuttonActive] = useState(true);
 
-    useEffect(async ()=>{
+    useEffect(async () => {
         setTotalCount("-")
-        await getCount(); 
-    },[navigate]) //run only on navigation change!
-
-    var otherSite = "sensor";
-    if (Typ == "sensor") {
-        otherSite = "pods";
-    }
+        await getCount();
+    }, [navigate]) //run only on navigation change!
 
     const updateCountAddition = async (e) => {
         try {
@@ -78,14 +73,27 @@ export default function Mainpage({ Typ }) {
             console.log(e);
         }
     };
-    
-    
+
+
     return (
         <>
-            
-
+            <div>
+                <button
+                    onClick={() => navigate('/pods')}
+                    disabled={Typ == "pod"}
+                    className="tabBtn">Pods</button>
+                <button
+                    onClick={() => navigate('/sensor')}
+                    disabled={Typ == "sensor"}
+                    className="tabBtn">Sensors</button>
+                <button
+                    onClick={() => navigate('/insulin')}
+                    disabled={Typ == "insulin"}
+                    className="tabBtn">Insulin</button>
+            </div>
+            <br />
             <text style={{ fontSize: "40px" }}>
-                {Typ}-count
+               In storage
             </text>
             <text style={{ fontSize: "70px" }}>
                 {totalCount}
@@ -95,36 +103,28 @@ export default function Mainpage({ Typ }) {
 
             <div style={{ textAlign: 'center' }}>
                 <div title={"adds x-number of " + Typ + "s to stash (negative or positive number)"}>
-                    <p style={{marginBottom:'-20px',marginTop:'-10px'}}>Add/Remove {Typ}s</p>
+                    <p style={{ marginBottom: '-20px', marginTop: '-10px' }}>Add/Remove {Typ}s</p>
                     <br />
                     <input type="text"
                         autoFocus
                         value={nrToAdd}
                         onChange={(e) => setNrToAdd(e.target.value)}
-                        style={{ width: '40px', textAlign: 'center' }}
-
                     />
                     <button
                         onClick={() => updateCountAddition(null)}
-                        disabled={!buttonActive}
-                        style={{ width: '200px' }}
-                    >Add {Typ}s</button>
+                        disabled={!buttonActive} >OK</button>
                 </div>
                 <br />
                 <div title={"Sets current number of " + Typ + "s in stash (positive number)"}>
-                <p style={{marginBottom:'-20px',marginTop:'-10px'}}>Set total nr of {Typ}s</p>
+                    <p style={{ marginBottom: '-20px', marginTop: '-10px' }}>Set total nr of {Typ}s</p>
                     <br />
                     <input type="text"
                         value={nrTotal}
                         onChange={(e) => setNrTotal(e.target.value)}
-                        style={{ width: '40px', textAlign: 'center' }}
-
                     />
                     <button
                         onClick={setCountTotal}
-                        disabled={!buttonActive}
-                        style={{ width: '200px' }}
-                    >Set {Typ}s</button>
+                        disabled={!buttonActive} >OK</button>
                 </div>
             </div>
             <br />
@@ -140,9 +140,7 @@ export default function Mainpage({ Typ }) {
 
             <br />
             <br />
-            <button onClick={() => navigate('/' + otherSite)}>
-                Change to {otherSite}
-            </button>
+
             <br />
             {/* <text>Email to: {process.env.EMAIL_TO}</text>
             <text>Send email when count is less than: {Typ == "pods" ? process.env.PODLIMIT : process.env.SENSORLIMIT}</text> */}

@@ -14,22 +14,22 @@ app.use(express.static(path.resolve(__dirname, '../frontend/build')));
 
 // Answer API requests with param ("/addtopodcount/10") 
 // For multiple params ("/addtopodcount?nr=23&type=omnipod") see: https://stackoverflow.com/a/17008027
-app.get('/addtopodcount/:nrOfPodsToAdd', async function (req, res) {
-    console.log(req.params.nrOfPodsToAdd);
+app.get('/addtopodcount/:nrToAdd', async function (req, res) {
+    console.log(req.params.nrToAdd);
 
-    await dbhelper.updatedb(req.params.nrOfPodsToAdd, "pod");
+    await dbhelper.updatedb(req.params.nrToAdd, "pod");
 
     res.set('Content-Type', 'application/json');
-    res.send('{"message":"' + req.params.nrOfPodsToAdd + ' pods added to stash!"}');
+    res.send('{"message":"' + req.params.nrToAdd + ' pods added to stash!"}');
 });
 
-app.get('/setpodcount/:nrOfPods', async function (req, res) {
-    console.log(req.params.nrOfPods);
+app.get('/setpodcount/:nrToSet', async function (req, res) {
+    console.log(req.params.nrToSet);
 
-    await dbhelper.updatedb(req.params.nrOfPods, "pod", true);
+    await dbhelper.updatedb(req.params.nrToSet, "pod", true);
 
     res.set('Content-Type', 'application/json');
-    res.send('{"message":"Stash is reset to: ' + req.params.nrOfPods + ' pods!"}');
+    res.send('{"message":"Stash is reset to: ' + req.params.nrToSet + ' pods!"}');
 });
 
 
@@ -43,6 +43,26 @@ app.get('/getpodcount', async function (req, res) {
     res.send('{"podCount":"' + count + '"}');
 });
 
+//sensor:
+app.get('/addtosensorcount/:nrToAdd', async function (req, res) {
+    console.log(req.params.nrToAdd);
+
+    await dbhelper.updatedb(req.params.nrToAdd, "sensor");
+
+    res.set('Content-Type', 'application/json');
+    res.send('{"message":"' + req.params.nrToAdd + ' sensors added to stash!"}');
+});
+
+app.get('/setsensorcount/:nrToSet', async function (req, res) {
+    console.log(req.params.nrToSet);
+
+    await dbhelper.updatedb(req.params.nrToSet, "sensor", true);
+
+    res.set('Content-Type', 'application/json');
+    res.send('{"message":"Stash is reset to: ' + req.params.nrToSet + ' sensors!"}');
+});
+
+
 app.get('/getsensorcount', async function (req, res) {
     
     let count = await dbhelper.getCount("sensor");
@@ -51,27 +71,35 @@ app.get('/getsensorcount', async function (req, res) {
     res.send('{"sensorCount":"' + count + '"}');
 });
 
-app.get('/addtosensorcount/:nrOfSensorsToAdd', async function (req, res) {
-    console.log(req.params.nrOfSensorsToAdd);
+//insu:
+app.get('/addtoinsulincount/:nrToAdd', async function (req, res) {
+    console.log(req.params.nrToAdd);
 
-    await dbhelper.updatedb(req.params.nrOfSensorsToAdd, "sensor");
-
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"' + req.params.nrOfSensorsToAdd + ' sensors added to stash!"}');
-});
-
-app.get('/setsensorcount/:nrOfSensors', async function (req, res) {
-    console.log(req.params.nrOfSensors);
-
-    await dbhelper.updatedb(req.params.nrOfSensors, "sensor", true);
+    await dbhelper.updatedb(req.params.nrToAdd, "insulin");
 
     res.set('Content-Type', 'application/json');
-    res.send('{"message":"Stash is reset to: ' + req.params.nrOfSensors + ' sensors!"}');
+    res.send('{"message":"' + req.params.nrToAdd + ' insulin added to stash!"}');
+});
+
+app.get('/setinsulincount/:nrToSet', async function (req, res) {
+    console.log(req.params.nrToSet);
+
+    await dbhelper.updatedb(req.params.nrToSet, "insulin", true);
+
+    res.set('Content-Type', 'application/json');
+    res.send('{"message":"Stash is reset to: ' + req.params.nrToSet + ' insulin!"}');
 });
 
 
+app.get('/getinsulincount', async function (req, res) {
+    
+    let count = await dbhelper.getCount("insulin");
 
+    res.set('Content-Type', 'application/json');
+    res.send('{"insuCount":"' + count + '"}');
+});
 
+//reset:
 app.get('/resetcount/:typ', async function (req, res) {
     
     await dbhelper.resetCount(req.params.typ);

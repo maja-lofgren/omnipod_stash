@@ -34,15 +34,23 @@ input {
   margin-left: 5px;
   border-radius: 10px;
   border-style: none;
+  width: 40px;
+  text-align: center
 }
 button {
   font-size: calc(10px + 2vmin);
   margin-left: 10px;
   padding: 10px;
-  min-width: 170px;
+  min-width: 140px;
   border-radius: 10px;
   border-style: none;
   cursor: pointer;
+}
+.tabBtn:disabled,
+.tabBtn[disabled]{
+  background-color: green;
+  color: black;
+  cursor:unset;
 }
 
 @keyframes App-logo-spin {

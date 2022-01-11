@@ -12,6 +12,7 @@ function App() {
             <Route path="/" element={<Mainpage Typ="pod" />} />
             <Route path="/pods" element={<Mainpage Typ="pod" />} />
             <Route path="/sensor" element={<Mainpage Typ="sensor" />} />
+            <Route path="/insulin" element={<Mainpage Typ="insulin" />} />
           </Routes>
         </BrowserRouter>
       </header>
