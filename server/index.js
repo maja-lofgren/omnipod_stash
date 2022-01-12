@@ -16,7 +16,7 @@ app.use(express.static(path.resolve(__dirname, '../frontend/build')));
 // For params instead of /:sdgf/:dfsf ("/addtocount?nr=23&type=omnipod") see: https://stackoverflow.com/a/17008027
 
 app.get('/getcount/:typ', async function (req, res) {
-    
+
     let count = await dbhelper.getCount(req.params.typ);
 
     res.set('Content-Type', 'application/json');
@@ -28,31 +28,45 @@ app.get('/addtocount/:typ/:nrToAdd', async function (req, res) {
     let nrToAdd = req.params.nrToAdd
     console.log(typ + ":" + nrToAdd);
 
-    await dbhelper.updatedb(nrToAdd, typ);
-    let count = await dbhelper.getCount(typ);
-
     res.set('Content-Type', 'application/json');
-    res.send('{"message":"' + nrToAdd + ' ' + typ + 's added to '  + typ + '-stash. New count: ' + count + '"}');
+
+    if (isNaN(+nrToAdd)) {
+        console.log("Not a number!");
+        res.send('{"message":"not a number!"}');
+    } else {
+        await dbhelper.updatedb(nrToAdd, typ);
+        let count = await dbhelper.getCount(typ);
+        res.send('{"message":"' + nrToAdd + ' ' + typ + 's added to ' + typ + '-stash. New count: ' + count + '"}');
+
+    }
+
+
 });
 
 app.get('/setcount/:typ/:nrToSet', async function (req, res) {
-    console.log(req.params.typ + ":" + req.params.nrToSet);
-
-    await dbhelper.updatedb(req.params.nrToSet, req.params.typ, true);
-
+    let typ = req.params.typ;
+    let nrToSet = req.params.nrToSet
+    console.log(typ + ":" + nrToSet);
     res.set('Content-Type', 'application/json');
-    res.send('{"message":"Stash is reset to: ' + req.params.nrToSet + ' ' + req.params.typ + 's!"}');
+
+    if (isNaN(+nrToSet)) {
+        console.log("Not a number!");
+        res.send('{"message":"not a number!"}');
+    } else {
+        await dbhelper.updatedb(nrToSet, typ, true);
+        res.send('{"message":"Stash is reset to: ' + nrToSet + ' ' + typ + 's!"}');
+    }
 });
 
 
-//reset:
-app.get('/resetcount/:typ', async function (req, res) {
-    
-    await dbhelper.resetCount(req.params.typ);
+// //reset:
+// app.get('/resetcount/:typ', async function (req, res) {
 
-    res.set('Content-Type', 'application/json');
-    res.send('{"' + req.params.typ + '-Count":0"}');
-});
+//     await dbhelper.resetCount(req.params.typ);
+
+//     res.set('Content-Type', 'application/json');
+//     res.send('{"' + req.params.typ + '-Count":0"}');
+// });
 // All remaining requests return the React app, so it can handle routing.
 app.get('*', function (request, response) {
     response.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
