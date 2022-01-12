@@ -5,9 +5,11 @@
 - The email contains direct links to either add 1,5 or 10 items, or open up the controller web-site where you can click on buttons and see status. 
 
 Email example (English)
+
 ![email](./Assets/email.png)
 
 Web-site:
+
 ![email](./Assets/website.png)
 
 - The app connects directly to your Nightscout database once a day to search for pod/sensor-changes and saves this info in a separate table (not touching the NS-data!).
