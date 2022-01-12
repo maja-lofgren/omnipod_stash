@@ -57,7 +57,7 @@ Now you need to enter the Config-vars (same as you did with Nightscout)
 To get you app to update/check your stash once a day, you need to setup a Task scheduler.
 1. Open the "Resources"-tab and in the Add-ons searchbox type "heroku scheduler" and click on it
 2. Make sure you have the "Standard - Free"-plan selected (default) and press "Submit order from" 
-3. Click on the newly added "Heroku Scheduler" (opens up new side)
+3. Click on the newly added "Heroku Scheduler" (opens up new page)
 Now repete these steps for the ones you'd like to get updates/notifications from: (pod/sensor/insulin)
 4. "Create job"
 5. "Every day at..." - and select a time 
