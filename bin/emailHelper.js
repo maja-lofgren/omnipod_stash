@@ -30,7 +30,7 @@ function sendEmail(CountLeft, Typ) {
         html: htmlContent
     };
 
-    if(process.env.LANG == "ENG"){
+    if(process.env.LANGUAGE == "ENG"){
         htmlContent = 'You only have: ' + CountLeft + " left...<br/>";
         htmlContent += 'Click <a href="' + url + '/' + Typ + '">here</a> to launch the control-site<br/>';
         htmlContent += 'Or use one of these quick-buttons to add to the ' + Typ + '-stash:<br/>'
