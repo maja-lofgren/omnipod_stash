@@ -1,13 +1,64 @@
 # Overview
-This app keeps track of your omnipod changes and notifies you when your stash is running low. The app connects directly to your Nightscout database once a day to search for pod-changes and loggs them in a separate table.
+- This app helps you to keep track of your personal storage of omnipods/sensors and insulin cartridge.
+- You manually enters how many pods/sensors/cartridge when you stock up, and the app automatically reduces the counter when it tracks a pod-change or sensor change from the NS-database. You'll have to manually enter when you discards an insulin chartidge.
+- When one of the three items runs low (less than a threashold value selected by you), you'll get notified with an email telling you to stock up! 
+- The email contains direct links to either add 1,5 or 10 items, or open up the controller site where you can click on buttons. 
+- The app connects directly to your Nightscout database once a day to search for pod/sensor-changes and creates and saves them in a separate table (not touching the NS-data!).
+- You don't need to worry that this app will eat up all of your free dynos in Heroku since it is only active once a day for 30min to check if you need notification or not. (plus a fiew 30-mins when you opens upp the site to alter values). Because of this, it takes a while for the site to load when you haven't used it for a while (~10s).... Fair price to pay for hosting a free site!
 
+
+# Installation on Heroku
+## App installation
+1. Make a fork of this git-repo to your github
+2. log into your account at heroku.com (same as you use to host NightScout)
+3. Click the "New" button (upper right side) => "Create new app"
+4. Choose App-name which will be the url to the site for example: mynamediabetesstash (url will be: mynamediabetesstash.herokuapp.com)
+5. leave region to United States => create app
+6. Under tab "Deploy" and left side "Deployment method" choose GitHub
+7. Since you're already connected from your Nigtscout-app - click purple "Search" button to list all of your repos, locate the omnipod-stash-fork-repo and hit the "Connect" button that appears next to it.
+8. Scroll down to the very bottom and hit "Deploy Branch" (still having the "master"-branch selected) to install the app
+
+## Enter config vars
+Now you need to enter the Config-vars (same as you did with Nightscout)
+1. You need the MONGODB_URI that you have entered in Nightscout app, so press "Personal" button on the top left to change app.../Settings/"Reveal config vars" and copy the MONGODB_URI value ("mongodb+srv://..........)
+
+2. Go back to your omnipod-stash-app and "Settings"-tab/"Reveal config vars" 
+3. Add these vars: (key value) => "Add"
+    - CONNSTR_mongo = (the one you copied from NS: "MONGODB_URI")
+    - HEROKU_APP_NAME = Same as the one you choose for the app. (you can see it in the url-window "dashboard.heroku.com/apps/**thenameofyourapphere!**)
+
+    - FROM = ordernewpods (use this if you do not know what you're doing...)
+    - EMAIL_TO = (comma separated list of emails to get notification)
+
+    Optional parameters (3 is default value for these ones => less than 3 pods/sensors/insulin will send you and email per day!)
+    - INSULINLIMIT = 3
+    - PODLIMIT = 3
+    - SENSORLIMIT = 3
+
+## Heroku Scheduler
+To get you app to update/check your stash once a day, you need to setup a Task scheduler.
+1. Open the "Resources"-tab and in the Add-ons searchbox type "heroku scheduler" and click on it
+2. Make sure you have the "Standard - Free"-plan selected (default) and press "Submit order from" 
+3. Click on the newly added "Heroku Scheduler" (opens up new side)
+Now repete these steps for the ones you'd like to get updates/notifications from: (pod/sensor/insulin)
+4. "Create job"
+5. "Every day at..." - and select a time 
+6. after the $ paste one of the three tasks: 
+    - checkPodState
+    - checkSensorState
+    - checkInsulinState
+7. click "save job" and repeat by clicking "Add Job" (top right)
+
+
+
+# Technical Overview
 This app consists of 3 parts: 
 1. Api-backend that handles conection to the database
-2. A single page app (frontend) that lets the user alter current nr of pods
+2. A single page app (frontend) that lets the user alter current nr of items
     - calls the api-backend to access the NS-db
 3. A Heroku scheduled task that polls the NS-db for pod-changes and updates the count of used pods. 
 
-For now this app does not require a sign in because it only allows the client to update the app-specific table keeping track of the number of pods left in the NS database. Not much fun for a hacker since the only thing you can do with this app is to update your counter of pods so that in worst case scenario you'd gett a notification telling you that you're out of pods even if you're not.  
+For now this app does not require a sign in because it only allows the client to update the app-specific table keeping track of the number of pods left in the NS database. Not much fun for a hacker since the only thing you can do with this app is to update your counter of pods so that in worst case scenario you'd get a notification telling you that you're out of pods even if you're not.  
 
 # debug in visual studio code
 ## To debug the server/index.js with breakpoints
@@ -53,85 +104,3 @@ open the /frontend-folder in different vscode and run its debug config separatel
 - task is a node file and has a start-line of `#! /app/.heroku/node/bin/node` and ´process.exit();´ to close the runner when finnished. 
 - When deployed to heroku, test by "More"-button/"Run Console" and run the filename in the "heroku run"-box.'
 - test script by creating copy with file-ending .js and remove the first line, and test with `node testfile.js`
-
-# Heroku env
-Env-variables specified in heroku is accessed with `process.env.ENVNAME`
-
-CONNSTR_mongo
-EMAIL_FROM
-EMAIL_FROM_PASS
-EMAIL_TO
-HEROKU_APP_NAME
-PODLIMIT
-SENSORLIMIT
-
-# Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

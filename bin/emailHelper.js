@@ -4,8 +4,8 @@ function sendEmail(CountLeft, Typ) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: process.env.EMAIL_FROM,
-            pass: process.env.EMAIL_FROM_PASS
+            user: process.env.FROM + '@gmail.com',
+            pass: process.env.EMAIL_FROM_PASS || 'changetoyourpassword'
         }
     });
 

@@ -48,13 +48,13 @@ async function checkState(Typ) {
             console.log('lastKnownChange: ' + lastKnownChange);
         }
         var eType = "Sensor Change";
-        var typeLimit = process.env.SENSORLIMIT;
+        var typeLimit = process.env.SENSORLIMIT  || 3;
         if (Typ == "pod") {
             eType = "Insulin Change";
-            typeLimit = process.env.PODLIMIT;
+            typeLimit = process.env.PODLIMIT  || 3;
         } else if (Typ == "insulin") {
             eType = null; //TODO vad göra här?
-            typeLimit = process.env.INSULINLIMIT;
+            typeLimit = process.env.INSULINLIMIT || 3;
         }
         if (lastKnownChange != null) {
             var newUsedcount = 0;
