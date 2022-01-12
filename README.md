@@ -1,6 +1,7 @@
 # Overview
 - This app helps you to keep track of your personal storage of omnipods/sensors and insulin cartridges.
-- You manually enters how many pods/sensors/cartridges to add when you stock up, and the app automatically reduces the counter when it tracks a pod-change or sensor change from the NS-database. You'll have to manually enter when you discards an insulin chartidge.
+- You manually enters how many pods/sensors/cartridges to add when you stock up, and the app automatically reduces the counter when it tracks a pod- or sensor-change from the NS-database. You'll have to manually enter when you discards an insulin chartidge.
+    - This is only tested with AAPS/Omnipod/dexcom G6, which enters this data automatically at every change, but I've heard that ios-loop users enters this manually in NS!? Hopefully it looks the same in the NS-db - othervice I'll need to tweek the code to also cover loop! 
 - When one of the three tracked items runs low (less than a threashold value selected by you), you'll get notified with an email telling you to stock up! 
 - The email contains direct links to either add 1,5 or 10 items, or open up the controller web-site where you can click on buttons and see status. 
 
