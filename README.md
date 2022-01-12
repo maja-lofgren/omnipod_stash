@@ -36,17 +36,17 @@ Now you need to enter the Config-vars (same as you did with Nightscout)
 
 2. Go back to your omnipod-stash-app and "Settings"-tab/"Reveal config vars" 
 3. Add these vars: (key value) => "Add"
-    - CONNSTR_mongo = (the one you copied from NS: "MONGODB_URI")
-    - HEROKU_APP_NAME = Same as the one you choose for the app. 
+    - **CONNSTR_mongo** = (the one you copied from NS: "MONGODB_URI")
+    - **HEROKU_APP_NAME** = Same as the one you choose for the app. 
 
-    - FROM = ordernewpods (use this if you do not know what you're doing...)
-    - EMAIL_TO = (comma separated list of emails to get notification)
+    - **FROM** = **ordernewpods** (use this if you do not know what you're doing...)
+    - **EMAIL_TO** = (comma separated list of emails to get notification)
 
     Optional parameters (3 is default value for these ones => less than 3 pods/sensors/insulin will send you and email per day!)
-    - LANGUAGE = ENG (deafults to email text in swedish...)
-    - INSULINLIMIT = 3
-    - PODLIMIT = 3
-    - SENSORLIMIT = 3
+    - **LANGUAGE** = ENG (deafults to email text in swedish...)
+    - **INSULINLIMIT** = 3
+    - **PODLIMIT** = 3
+    - **SENSORLIMIT** = 3
 
 ## Heroku Scheduler
 To get you app to update/check your stash once a day, you need to setup a Task scheduler.
