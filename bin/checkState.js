@@ -81,7 +81,7 @@ async function checkState(Typ) {
 
 
                 if (docTreatments != null) {
-                    newUsedcount = docTreatments.count;
+                    newUsedcount = Number(docTreatments.count);
                 }
                 console.log("newUsed" + Typ + ":" + newUsedcount);
 
