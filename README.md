@@ -1,10 +1,10 @@
 # Overview
-- This app helps you to keep track of your personal storage of omnipods/sensors and insulin cartridge.
-- You manually enters how many pods/sensors/cartridge when you stock up, and the app automatically reduces the counter when it tracks a pod-change or sensor change from the NS-database. You'll have to manually enter when you discards an insulin chartidge.
-- When one of the three items runs low (less than a threashold value selected by you), you'll get notified with an email telling you to stock up! 
-- The email contains direct links to either add 1,5 or 10 items, or open up the controller site where you can click on buttons. 
-- The app connects directly to your Nightscout database once a day to search for pod/sensor-changes and creates and saves them in a separate table (not touching the NS-data!).
-- You don't need to worry that this app will eat up all of your free dynos in Heroku since it is only active once a day for 30min to check if you need notification or not. (plus a fiew 30-mins when you opens upp the site to alter values). Because of this, it takes a while for the site to load when you haven't used it for a while (~10s).... Fair price to pay for hosting a free site!
+- This app helps you to keep track of your personal storage of omnipods/sensors and insulin cartridges.
+- You manually enters how many pods/sensors/cartridges to add when you stock up, and the app automatically reduces the counter when it tracks a pod-change or sensor change from the NS-database. You'll have to manually enter when you discards an insulin chartidge.
+- When one of the three tracked items runs low (less than a threashold value selected by you), you'll get notified with an email telling you to stock up! 
+- The email contains direct links to either add 1,5 or 10 items, or open up the controller web-site where you can click on buttons and see status. 
+- The app connects directly to your Nightscout database once a day to search for pod/sensor-changes and saves this info in a separate table (not touching the NS-data!).
+- You don't need to worry that this app will eat up all of your free dynos in Heroku since it is only active once a day for 30min to check if you need notification or not (plus a fiew 30-mins when you opens upp the site to alter values). Because of this, it takes a while for the site to load when you haven't used it for a while (~10s).... Fair price to pay for hosting a free site!
 
 
 # Installation on Heroku
