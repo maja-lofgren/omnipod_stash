@@ -12,8 +12,10 @@ Web-site:
 
 ![email](./Assets/website.png)
 
-- The app connects directly to your Nightscout database once a day to search for pod/sensor-changes and saves this info in a separate table (not touching the NS-data!).
-- You don't need to worry that this app will eat up all of your free dynos in Heroku since it is only active once a day for 30min to check if you need notification or not (plus a fiew 30-mins when you opens upp the site to alter values). Because of this, it takes a while for the site to load when you haven't used it for a while (~10s).... Fair price to pay for hosting a free site!
+- The app connects directly to your Nightscout database once a day to search for pod/sensor-changes and saves this info in a separate table (not touching the NS-data!). The table is really light weight and will not affect your db usage noticable!
+- You don't need to worry that this app will eat up all of your free dynos in Heroku since it is only active once a day for 30min to check if you need notification or not (plus a fiew 30-mins when you opens upp the site to alter values). Because of this, it takes a while for the site to load when you haven't used it for a while (~10s)...
+Fair price to pay for hosting a free site!
+
 
 
 # Installation on Heroku
