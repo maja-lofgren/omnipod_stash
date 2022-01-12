@@ -4,8 +4,8 @@
 - When one of the three tracked items runs low (less than a threashold value selected by you), you'll get notified with an email telling you to stock up! 
 - The email contains direct links to either add 1,5 or 10 items, or open up the controller web-site where you can click on buttons and see status. 
 
+Email example (English)
 ![email](./Assets/stash_2.png)
-![email](./Assets/stash_3.png)
 
 Web-site:
 ![email](./Assets/stash_1.png)
