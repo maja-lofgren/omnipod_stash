@@ -28,7 +28,7 @@ export default function Mainpage({ Typ }) {
                 alert("Not a number!")
                 return;
             }
-            await axios.get('/addto' + Typ + 'count/' + add);
+            await axios.get('/addtocount/' + Typ + '/' + add);
             await getCount();
         } catch (e) {
             console.log(e);
@@ -47,7 +47,7 @@ export default function Mainpage({ Typ }) {
                 alert("Not a number!")
                 return;
             }
-            const res = await axios.get('/set' + Typ + 'count/' + countTotal);
+            const res = await axios.get('/setcount/' + Typ + '/' + countTotal);
             await getCount();
         } catch (e) {
             console.log(e);
@@ -58,9 +58,11 @@ export default function Mainpage({ Typ }) {
     const getCount = async () => {
         try {
             console.log("getCount of: " + Typ);
-            const res = await axios.get('/get' + Typ + 'count');
+            console.log('/getcount/' + Typ);
+            const res = await axios.get('/getcount/' + Typ);    
             
             if (res.data.Count !== undefined) {
+                console.log("Count: " + res.data.Count);
                 setTotalCount(res.data.Count);
             }
 

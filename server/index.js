@@ -12,92 +12,38 @@ const app = express();
 // Priority serve any static files.
 app.use(express.static(path.resolve(__dirname, '../frontend/build')));
 
-// Answer API requests with param ("/addtopodcount/10") 
-// For multiple params ("/addtopodcount?nr=23&type=omnipod") see: https://stackoverflow.com/a/17008027
-app.get('/addtopodcount/:nrToAdd', async function (req, res) {
-    console.log(req.params.nrToAdd);
+// Answer API requests with param ("/addtocount/pod/10") 
+// For params instead of /:sdgf/:dfsf ("/addtocount?nr=23&type=omnipod") see: https://stackoverflow.com/a/17008027
 
-    await dbhelper.updatedb(req.params.nrToAdd, "pod");
-
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"' + req.params.nrToAdd + ' pods added to stash!"}');
-});
-
-app.get('/setpodcount/:nrToSet', async function (req, res) {
-    console.log(req.params.nrToSet);
-
-    await dbhelper.updatedb(req.params.nrToSet, "pod", true);
-
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"Stash is reset to: ' + req.params.nrToSet + ' pods!"}');
-});
-
-
-// Answer API requests with param ("/addtopodcount/10") 
-// For multiple params ("/addtopodcount?nr=23&type=omnipod") see: https://stackoverflow.com/a/17008027
-app.get('/getpodcount', async function (req, res) {
+app.get('/getcount/:typ', async function (req, res) {
     
-    let count = await dbhelper.getCount("pod");
+    let count = await dbhelper.getCount(req.params.typ);
 
     res.set('Content-Type', 'application/json');
     res.send('{"Count":"' + count + '"}');
 });
 
-//sensor:
-app.get('/addtosensorcount/:nrToAdd', async function (req, res) {
-    console.log(req.params.nrToAdd);
+app.get('/addtocount/:typ/:nrToAdd', async function (req, res) {
+    let typ = req.params.typ;
+    let nrToAdd = req.params.nrToAdd
+    console.log(typ + ":" + nrToAdd);
 
-    await dbhelper.updatedb(req.params.nrToAdd, "sensor");
-
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"' + req.params.nrToAdd + ' sensors added to stash!"}');
-});
-
-app.get('/setsensorcount/:nrToSet', async function (req, res) {
-    console.log(req.params.nrToSet);
-
-    await dbhelper.updatedb(req.params.nrToSet, "sensor", true);
+    await dbhelper.updatedb(nrToAdd, typ);
+    let count = await dbhelper.getCount(typ);
 
     res.set('Content-Type', 'application/json');
-    res.send('{"message":"Stash is reset to: ' + req.params.nrToSet + ' sensors!"}');
+    res.send('{"message":"' + nrToAdd + ' ' + typ + 's added to '  + typ + '-stash. New count: ' + count + '"}');
 });
 
+app.get('/setcount/:typ/:nrToSet', async function (req, res) {
+    console.log(req.params.typ + ":" + req.params.nrToSet);
 
-app.get('/getsensorcount', async function (req, res) {
-    
-    let count = await dbhelper.getCount("sensor");
+    await dbhelper.updatedb(req.params.nrToSet, req.params.typ, true);
 
     res.set('Content-Type', 'application/json');
-    res.send('{"Count":"' + count + '"}');
+    res.send('{"message":"Stash is reset to: ' + req.params.nrToSet + ' ' + req.params.typ + 's!"}');
 });
 
-//insu:
-app.get('/addtoinsulincount/:nrToAdd', async function (req, res) {
-    console.log(req.params.nrToAdd);
-
-    await dbhelper.updatedb(req.params.nrToAdd, "insulin");
-
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"' + req.params.nrToAdd + ' insulin added to stash!"}');
-});
-
-app.get('/setinsulincount/:nrToSet', async function (req, res) {
-    console.log(req.params.nrToSet);
-
-    await dbhelper.updatedb(req.params.nrToSet, "insulin", true);
-
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"Stash is reset to: ' + req.params.nrToSet + ' insulin!"}');
-});
-
-
-app.get('/getinsulincount', async function (req, res) {
-    
-    let count = await dbhelper.getCount("insulin");
-
-    res.set('Content-Type', 'application/json');
-    res.send('{"Count":"' + count + '"}');
-});
 
 //reset:
 app.get('/resetcount/:typ', async function (req, res) {

@@ -13,9 +13,9 @@ function sendEmail(CountLeft, Typ) {
     let url = "https://" + process.env.HEROKU_APP_NAME + ".herokuapp.com";
     var htmlContent = 'Du har nu bara: ' + CountLeft + " kvar...<br/>";
     htmlContent += 'Klicka <a href="' + url + '/' + Typ + '">här</a> för att öppna kontroll-sidan<br/>';
-    htmlContent += 'Eller använd snabblänkarna för att lägga till önskat antal ' + Typ + 'er:<br/>'
-    htmlContent += '<a href="' + url + '/addto' + Typ + 'count/-1" style="margin-right:15px;">-1</a><a href="' + url + '/addto' + Typ + 'count/1" style="margin-right:15px;">+1</a>        ';
-    htmlContent += '<a href="' + url + '/addto' + Typ + 'count/5" style="margin-right:15px;">+5</a><a href="' + url + '/addto' + Typ + 'count/10" style="margin-right:15px;">+10</a>';
+    htmlContent += 'Eller använd snabblänkarna för att lägga till önskat antal ' + Typ + '(er):<br/>'
+    htmlContent += '<a href="' + url + '/addtocount/' + Typ + '/-1" style="margin-right:15px;">-1</a><a href="' + url + '/addtocount/' + Typ + '/1" style="margin-right:15px;">+1</a>        ';
+    htmlContent += '<a href="' + url + '/addtocount/' + Typ + '/5" style="margin-right:15px;">+5</a><a href="' + url + '/addtocount/' + Typ + '/10" style="margin-right:15px;">+10</a>';
 
     var mailOptions = {
         from: process.env.EMAIL_FROM,
