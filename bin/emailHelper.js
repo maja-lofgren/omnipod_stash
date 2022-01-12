@@ -2,14 +2,15 @@ function sendEmail(CountLeft, Typ) {
     console.log("You are running low on " + Typ + "s!!! \n Notify owner to get more!");
     var nodemailer = require('nodemailer');
 
-    let from = process.env.FROM + '@gmail.com'
-    let to = process.env.EMAIL_FROM_PASS || 'changetoyourpassword'
+    let from = process.env.FROM + '@gmail.com';
+    let from_p = process.env.EMAIL_FROM_PASS || 'changetoyourpassword';
+    let to = process.env.EMAIL_TO;
 
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
             user: from,
-            pass: to
+            pass: from_p
         }
     });
 
