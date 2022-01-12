@@ -3,7 +3,7 @@
 - You manually enters how many pods/sensors/cartridges to add when you stock up, and the app automatically reduces the counter when it tracks a pod- or sensor-change from the NS-database. You'll have to manually enter when you discards an insulin chartidge.
     - This is only tested with AAPS/Omnipod/dexcom G6, which enters this data automatically at every change, but I've heard that ios-loop users enters this manually in NS!? Hopefully it looks the same in the NS-db - othervice I'll need to tweek the code to also cover loop! 
 - When one of the three tracked items runs low (less than a threashold value selected by you), you'll get notified with an email telling you to stock up! 
-- The email contains direct links to either add 1,5 or 10 items, or open up the controller web-site where you can click on buttons and see status. 
+- The email contains direct links to either add 1, 5 or 10 items, or open up the controller web-site where you can click on buttons and see status. 
 
 Email example (English)
 
@@ -21,8 +21,8 @@ Fair price to pay for hosting a free site!
 
 # Installation on Heroku
 ## App installation
-1. Make a fork of this git-repo to your github
-2. log into your account at heroku.com (same as you use to host NightScout)
+1. Make a fork of this git-repo to your github (Fork button top right quorner)
+2. log into your account at [heroku.com](https://dashboard.heroku.com/) (same as you use to host NightScout)
 3. Click the "New" button (upper right side) => "Create new app"
 4. Choose App-name which will be the url to the site for example: mynamediabetesstash (url will be: mynamediabetesstash.herokuapp.com)
 5. leave region to United States => create app
