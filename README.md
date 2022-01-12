@@ -5,10 +5,10 @@
 - The email contains direct links to either add 1,5 or 10 items, or open up the controller web-site where you can click on buttons and see status. 
 
 Email example (English)
-![email](./Assets/website.png)
+![email](./Assets/email.png)
 
 Web-site:
-![email](./Assets/email.png)
+![email](./Assets/website.png)
 
 - The app connects directly to your Nightscout database once a day to search for pod/sensor-changes and saves this info in a separate table (not touching the NS-data!).
 - You don't need to worry that this app will eat up all of your free dynos in Heroku since it is only active once a day for 30min to check if you need notification or not (plus a fiew 30-mins when you opens upp the site to alter values). Because of this, it takes a while for the site to load when you haven't used it for a while (~10s).... Fair price to pay for hosting a free site!
