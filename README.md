@@ -21,7 +21,9 @@ Fair price to pay for hosting a free site!
 
 # Installation on Heroku
 ## App installation
-1. Make a fork of this git-repo to your github (Fork button top right quorner)
+1. Make a fork of this git-repo to your github 
+    - You must be logged in to your github account!
+    - Fork button (located top right)
 2. log into your account at [heroku.com](https://dashboard.heroku.com/) (same as you use to host NightScout)
 3. Click the "New" button (upper right side) => "Create new app"
 4. Choose App-name which will be the url to the site for example: mynamediabetesstash (url will be: mynamediabetesstash.herokuapp.com)
