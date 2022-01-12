@@ -67,6 +67,7 @@ Now repete these steps for the ones you'd like to get updates/notifications from
     - checkInsulinState
 7. click "save job" and repeat by clicking "Add Job" (top right)
 
+Open your website by clicking the button "Open app" (location: top right) and see if it works to "set count" or "add count" on pods/sensors/insulin
 
 
 # Technical Overview (you can stop reading here...)
