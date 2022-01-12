@@ -31,6 +31,7 @@ Now you need to enter the Config-vars (same as you did with Nightscout)
     - EMAIL_TO = (comma separated list of emails to get notification)
 
     Optional parameters (3 is default value for these ones => less than 3 pods/sensors/insulin will send you and email per day!)
+    - LANG = ENG (deafults to email text in swedish...)
     - INSULINLIMIT = 3
     - PODLIMIT = 3
     - SENSORLIMIT = 3
