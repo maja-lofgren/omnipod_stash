@@ -34,7 +34,10 @@ Fair price to pay for hosting a free site!
 
 ## Enter config vars
 Now you need to enter the Config-vars (same as you did with Nightscout)
-1. You need the MONGODB_URI that you have entered in Nightscout app, so press "Personal" button on the top left to change app.../Settings/"Reveal config vars" and copy the MONGODB_URI value ("mongodb+srv://..........)
+1. You need the MONGODB_URI that you have entered in Nightscout app, so start by changing to that app:
+    - Click "Personal" button on the top left to change app
+    - select the Nightscout-app
+    - open "Settings"-tab/"Reveal config vars" and copy the MONGODB_URI value ("mongodb+srv://..........)
 
 2. Go back to your omnipod-stash-app and "Settings"-tab/"Reveal config vars" 
 3. Add these vars: (key value) => "Add"
