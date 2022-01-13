@@ -65,7 +65,8 @@ async function checkState(Typ) {
                         {
                             "$match": {
                                 "created_at": {
-                                    "$gt": lastKnownChange
+                                    "$gt": lastKnownChange,
+                                    "$lt": new Date().toISOString()
                                 },
                                 "eventType": eType
                             }
