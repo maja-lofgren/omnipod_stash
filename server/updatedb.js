@@ -6,6 +6,10 @@ async function updatedb(nrToAdd, Typ, resetdb = false) {
     var url = process.env.CONNSTR_mongo;
     console.log("adding: " + nrToAdd + " to " + Typ + " in db!");
 
+    if (isNaN(+nrToAdd)) {
+        console.log("Not a number!");
+        return;
+    }
     // create a client to mongodb
     var MongoClient = require('mongodb').MongoClient;
 

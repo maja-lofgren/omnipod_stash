@@ -1,16 +1,30 @@
 # Overview
-- This app helps you to keep track of your personal storage of omnipods/sensors and insulin cartridge.
-- You manually enters how many pods/sensors/cartridge when you stock up, and the app automatically reduces the counter when it tracks a pod-change or sensor change from the NS-database. You'll have to manually enter when you discards an insulin chartidge.
-- When one of the three items runs low (less than a threashold value selected by you), you'll get notified with an email telling you to stock up! 
-- The email contains direct links to either add 1,5 or 10 items, or open up the controller site where you can click on buttons. 
-- The app connects directly to your Nightscout database once a day to search for pod/sensor-changes and creates and saves them in a separate table (not touching the NS-data!).
-- You don't need to worry that this app will eat up all of your free dynos in Heroku since it is only active once a day for 30min to check if you need notification or not. (plus a fiew 30-mins when you opens upp the site to alter values). Because of this, it takes a while for the site to load when you haven't used it for a while (~10s).... Fair price to pay for hosting a free site!
+- This app helps you to keep track of your personal storage of omnipods/sensors and insulin cartridges.
+- You manually enters how many pods/sensors/cartridges to add when you stock up, and the app automatically reduces the counter when it tracks a pod- or sensor-change from the NS-database. You'll have to manually enter when you discards an insulin chartidge.
+    - This is only tested with AAPS/Omnipod/dexcom G6, which enters this data automatically at every change, but I've heard that ios-loop users enters this manually in NS!? Hopefully it looks the same in the NS-db - othervice I'll need to tweek the code to also cover loop! 
+- When one of the three tracked items runs low (less than a threashold value selected by you), you'll get notified with an email telling you to stock up! 
+- The email contains direct links to either add 1, 5 or 10 items, or open up the controller web-site where you can click on buttons and see status. 
+
+Email example
+
+![email](./Assets/email.png)
+
+Web-site:
+
+![email](./Assets/website.png)
+
+- The app connects directly to your Nightscout database once a day to search for pod/sensor-changes and saves this info in a separate table (not touching the NS-data!). The table is really light weight and will not affect your db usage noticable!
+- You don't need to worry that this app will eat up all of your free dynos in Heroku since it is only active once a day for 30min to check if you need notification or not (plus a fiew 30-mins when you opens upp the site to alter values). Because of this, it takes a while for the site to load when you haven't used it for a while (~10s)...
+Fair price to pay for hosting a free site!
+
 
 
 # Installation on Heroku
 ## App installation
-1. Make a fork of this git-repo to your github
-2. log into your account at heroku.com (same as you use to host NightScout)
+1. Make a fork of this git-repo to your github 
+    - You must be logged in to your github account!
+    - Fork button (located top right)
+2. log into your account at [heroku.com](https://dashboard.heroku.com/) (same as you use to host NightScout)
 3. Click the "New" button (upper right side) => "Create new app"
 4. Choose App-name which will be the url to the site for example: mynamediabetesstash (url will be: mynamediabetesstash.herokuapp.com)
 5. leave region to United States => create app
@@ -20,26 +34,30 @@
 
 ## Enter config vars
 Now you need to enter the Config-vars (same as you did with Nightscout)
-1. You need the MONGODB_URI that you have entered in Nightscout app, so press "Personal" button on the top left to change app.../Settings/"Reveal config vars" and copy the MONGODB_URI value ("mongodb+srv://..........)
+1. You need the MONGODB_URI that you have entered in Nightscout app, so start by changing to that app:
+    - Click "Personal" button on the top left to change app
+    - select the Nightscout-app
+    - open "Settings"-tab/"Reveal config vars" and copy the MONGODB_URI value ("mongodb+srv://..........)
 
 2. Go back to your omnipod-stash-app and "Settings"-tab/"Reveal config vars" 
 3. Add these vars: (key value) => "Add"
-    - CONNSTR_mongo = (the one you copied from NS: "MONGODB_URI")
-    - HEROKU_APP_NAME = Same as the one you choose for the app. (you can see it in the url-window "dashboard.heroku.com/apps/**thenameofyourapphere!**)
+    - **CONNSTR_mongo** = (the one you copied from NS: "MONGODB_URI" = mongodb+srv://.........)
+    - **HEROKU_APP_NAME** = Same as the one you choose for the app. (mynamediabetesstash in example above!)
 
-    - FROM = ordernewpods (use this if you do not know what you're doing...)
-    - EMAIL_TO = (comma separated list of emails to get notification)
+    - **FROM** = **ordernewpods** (use this if you do not know what you're doing...)
+    - **EMAIL_TO** = (comma separated list of emails to get notification)
 
     Optional parameters (3 is default value for these ones => less than 3 pods/sensors/insulin will send you and email per day!)
-    - INSULINLIMIT = 3
-    - PODLIMIT = 3
-    - SENSORLIMIT = 3
+    - **LANGUAGE** = ENG (deafults to email text in swedish...)
+    - **INSULINLIMIT** = 3
+    - **PODLIMIT** = 3
+    - **SENSORLIMIT** = 3
 
 ## Heroku Scheduler
 To get you app to update/check your stash once a day, you need to setup a Task scheduler.
 1. Open the "Resources"-tab and in the Add-ons searchbox type "heroku scheduler" and click on it
 2. Make sure you have the "Standard - Free"-plan selected (default) and press "Submit order from" 
-3. Click on the newly added "Heroku Scheduler" (opens up new side)
+3. Click on the newly added "Heroku Scheduler" (opens up new page)
 Now repete these steps for the ones you'd like to get updates/notifications from: (pod/sensor/insulin)
 4. "Create job"
 5. "Every day at..." - and select a time 
@@ -49,9 +67,10 @@ Now repete these steps for the ones you'd like to get updates/notifications from
     - checkInsulinState
 7. click "save job" and repeat by clicking "Add Job" (top right)
 
+Open your website by clicking the button "Open app" (location: top right) and see if it works to "set count" or "add count" on pods/sensors/insulin
 
 
-# Technical Overview
+# Technical Overview (you can stop reading here...)
 This app consists of 3 parts: 
 1. Api-backend that handles conection to the database
 2. A single page app (frontend) that lets the user alter current nr of items
