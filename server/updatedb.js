@@ -90,7 +90,7 @@ async function getCount(Typ) {
     try {
         db = dbClient.db('nightscout');
         // db pointing to newdb
-        console.log("Switched to " + db.databaseName + " database");
+        //console.log("Switched to " + db.databaseName + " database");
 
     } catch (err) {
         dbClient.close();

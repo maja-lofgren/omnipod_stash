@@ -28,7 +28,7 @@ export default function Mainpage({ Typ }) {
                 alert("Not a number!")
                 return;
             }
-            await axios.get('/addtocount/' + Typ + '/' + add);
+            await axios.get('/addtocount', { params: { typ: Typ, nr: add, ust: new Date(), usg: new Date() } });
             await getCount();
         } catch (e) {
             console.log(e);
@@ -47,7 +47,7 @@ export default function Mainpage({ Typ }) {
                 alert("Not a number!")
                 return;
             }
-            const res = await axios.get('/setcount/' + Typ + '/' + countTotal);
+            const res = await axios.get('/setcount', { params: { typ: Typ, nr: countTotal, ust: new Date(), usg: new Date() } });
             await getCount();
         } catch (e) {
             console.log(e);

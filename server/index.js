@@ -15,6 +15,7 @@ app.use(express.static(path.resolve(__dirname, '../frontend/build')));
 // Answer API requests with param ("/addtocount/pod/10") 
 // For params instead of /:sdgf/:dfsf ("/addtocount?nr=23&type=omnipod") see: https://stackoverflow.com/a/17008027
 
+
 app.get('/getcount/:typ', async function (req, res) {
     
     let count = await dbhelper.getCount(req.params.typ);
@@ -23,25 +24,95 @@ app.get('/getcount/:typ', async function (req, res) {
     res.send('{"Count":"' + count + '"}');
 });
 
-app.get('/addtocount/:typ/:nrToAdd', async function (req, res) {
-    let typ = req.params.typ;
-    let nrToAdd = req.params.nrToAdd
-    console.log(typ + ":" + nrToAdd);
+const delaytime = 7;
+var lastCall = new Date();
+var lastType = '';
+var lastVal = '';
+var lastOp = '';
+var lastUst = '';
+var lastUsg = '';
 
-    await dbhelper.updatedb(nrToAdd, typ);
-    let count = await dbhelper.getCount(typ);
+function validateCall(type, val, op, ust, usg) {
+    lastCall.setSeconds(lastCall.getSeconds() + delaytime);
+    var isValid = true;
+    if ((ust && ust)
+        && lastUst === ust
+        && lastUsg === usg) {
+        console.log("too early, at least " + delaytime + "s between api-calls (prevent douplicates)");
+        console.log("type: " + type + " val: " + val + " op: " + op + " dT: " + lastCall - new Date());
+        isValid = false;
+    } else if (type === lastType
+        && val === lastVal
+        && op === lastOp
+        && lastCall > new Date()
+    ) {
+        console.log("too early, at least " + delaytime + "s between api-calls (prevent douplicates)");
+        console.log("type: " + type + " val: " + val + " op: " + op + " dT: " + lastCall - new Date());
+        isValid = false;
+    }
+    lastType = type;
+    lastVal = val;
+    lastOp = op;
+    lastCall = new Date();
+    if (ust && ust) {
+        lastUst = ust;
+        lastUsg = usg;
+    }
+    return isValid;
+}
+
+app.get('/addtocount', async function (req, res) {
+
+    let typ = req.query.typ;
+    let nr = req.query.nr
+    let ust = req.query.ust;
+    let usg = req.query.usg;
+    console.log(req.query);
+    console.log(typ + ":" + nr);
 
     res.set('Content-Type', 'application/json');
-    res.send('{"message":"' + nrToAdd + ' ' + typ + 's added to '  + typ + '-stash. New count: ' + count + '"}');
+
+    if (!validateCall(typ, nr, "add", ust, usg)) {
+        console.log("Too soon!");
+        res.send('{"message":"Too soon!"}');
+        return;
+    }
+
+    if (isNaN(+nr)) {
+        console.log("Not a number!");
+        res.send('{"message":"not a number!"}');
+    } else {
+        await dbhelper.updatedb(nr, typ);
+        let count = await dbhelper.getCount(typ);
+        res.send('{"message":"' + nr + ' ' + typ + 's added to ' + typ + '-stash. New count: ' + count + '"}');
+
+    }
 });
 
-app.get('/setcount/:typ/:nrToSet', async function (req, res) {
-    console.log(req.params.typ + ":" + req.params.nrToSet);
-
-    await dbhelper.updatedb(req.params.nrToSet, req.params.typ, true);
-
+app.get('/setcount', async function (req, res) {
+    let typ = req.query.typ;
+    let nr = req.query.nr
+    let ust = req.query.ust;
+    let usg = req.query.usg;
+    
+    console.log(req.query);
+    console.log(typ + ":" + nr);
+    
     res.set('Content-Type', 'application/json');
-    res.send('{"message":"Stash is reset to: ' + req.params.nrToSet + ' ' + req.params.typ + 's!"}');
+
+    if (!validateCall(typ, nrToAdd, "set", ust, usg)) {
+        console.log("Too soon!");
+        res.send('{"message":"Too soon!"}');
+        return;
+    }
+
+    if (isNaN(+nr)) {
+        console.log("Not a number!");
+        res.send('{"message":"not a number!"}');
+    } else {
+        await dbhelper.updatedb(nr, typ, true);
+        res.send('{"message":"Stash is reset to: ' + nr + ' ' + typ + 's!"}');
+    }
 });
 
 

@@ -25,6 +25,7 @@ my.env
 .env
 my.*.env
 *.pem
+*test.js*
 
 /tmp
 /.vs
