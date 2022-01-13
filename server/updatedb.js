@@ -2,7 +2,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-async function updatedb(nrToAdd, Typ, resetdb = false) {
+async function updatedb(nrToAdd, Typ, source, resetdb = false) {
     var url = process.env.CONNSTR_mongo;
     console.log("adding: " + nrToAdd + " to " + Typ + " in db!");
 
@@ -61,7 +61,8 @@ async function updatedb(nrToAdd, Typ, resetdb = false) {
             Count: parseInt(count) + parseInt(nrToAdd),
             LastKnownChange: lastKnownChange,
             Operation: operation,
-            Type: Typ
+            Type: Typ,
+            Source: source
         };
         //update omnipodstash with latest: 
         await db.collection("omnipodstash").insertOne(dbEntity);
@@ -156,7 +157,8 @@ async function resetCount(Typ) {
             Count: 0,
             LastKnownChange: new Date().toISOString(),
             Operation: "Api Reset",
-            Type: Typ
+            Type: Typ,
+            Source: source
         };
 
         //update omnipodstash with latest: 

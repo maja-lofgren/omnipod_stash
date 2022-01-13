@@ -115,7 +115,8 @@ async function checkState(Typ) {
                 Count: typeCount,
                 LastKnownChange: lastChange,
                 Operation: "Scheduled Task " + Typ,
-                Type: Typ
+                Type: Typ,
+                Source: 'Scheduled Task'
             };
 
             //update omnipodstash with latest: 
@@ -134,7 +135,8 @@ async function checkState(Typ) {
                 Count: 0,
                 LastKnownChange: new Date().toISOString(),
                 Operation: "Scheduled Task " + Typ,
-                Type: Typ
+                Type: Typ,
+                Source: 'Scheduled Task'
             };
             //update db: 
             await db.collection("omnipodstash").insertOne(dbEntity);

@@ -31,14 +31,14 @@ var lastVal = '';
 var lastOp = '';
 var lastId = '';
 
-function validateCall(type, val, op, id) {
+function validateCall(type, val, op, id, source) {
 
     var isValid = true;
     if (id && lastId === id) { //frontend sets id on calls
         console.log("Api received multiple calls...");
         isValid = false;
         
-    } else if (!id //gmail doesn't
+    } else if (source && source === "gmail"
         && type === lastType
         && val === lastVal
         && op === lastOp
@@ -63,12 +63,14 @@ app.get('/addtocount', async function (req, res) {
     let typ = req.query.typ;
     let nr = req.query.nr
     let id = req.query.id;
+    let source = req.query.source;
+    
     console.log(req.query);
     console.log(typ + ":" + nr);
 
     res.set('Content-Type', 'application/json');
 
-    if (!validateCall(typ, nr, "add", id)) {
+    if (!validateCall(typ, nr, "add", id, source)) {
         console.log("Too soon!");
         res.send('{"message":"Too soon!"}');
         return;
@@ -78,7 +80,7 @@ app.get('/addtocount', async function (req, res) {
         console.log("Not a number!");
         res.send('{"message":"not a number!"}');
     } else {
-        await dbhelper.updatedb(nr, typ);
+        await dbhelper.updatedb(nr, typ, source);
         let count = await dbhelper.getCount(typ);
         res.send('{"message":"' + nr + ' ' + typ + 's added to ' + typ + '-stash. New count: ' + count + '"}');
 
@@ -95,7 +97,7 @@ app.get('/setcount', async function (req, res) {
     
     res.set('Content-Type', 'application/json');
 
-    if (!validateCall(typ, nrToAdd, "set", id)) {
+    if (!validateCall(typ, nrToAdd, "set", id, source)) {
         console.log("Too soon!");
         res.send('{"message":"Too soon!"}');
         return;
@@ -105,7 +107,7 @@ app.get('/setcount', async function (req, res) {
         console.log("Not a number!");
         res.send('{"message":"not a number!"}');
     } else {
-        await dbhelper.updatedb(nr, typ, true);
+        await dbhelper.updatedb(nr, typ, source, true);
         res.send('{"message":"Stash is reset to: ' + nr + ' ' + typ + 's!"}');
     }
 });
