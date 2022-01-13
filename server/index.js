@@ -24,7 +24,7 @@ app.get('/getcount/:typ', async function (req, res) {
     res.send('{"Count":"' + count + '"}');
 });
 
-const delaytime = 7;
+const delaytime = 5;
 var lastCall = new Date();
 var lastType = '';
 var lastVal = '';
@@ -38,7 +38,7 @@ function validateCall(type, val, op, ust, usg) {
     if ((ust && ust)
         && lastUst === ust
         && lastUsg === usg) {
-        console.log("too early, at least " + delaytime + "s between api-calls (prevent douplicates)");
+        console.log("Api received multiple calls...");
         console.log("type: " + type + " val: " + val + " op: " + op + " dT: " + lastCall - new Date());
         isValid = false;
     } else if (type === lastType
