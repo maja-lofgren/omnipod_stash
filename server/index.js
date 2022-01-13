@@ -29,34 +29,31 @@ var lastCall = new Date();
 var lastType = '';
 var lastVal = '';
 var lastOp = '';
-var lastUst = '';
-var lastUsg = '';
+var lastId = '';
 
-function validateCall(type, val, op, ust, usg) {
-    lastCall.setSeconds(lastCall.getSeconds() + delaytime);
+function validateCall(type, val, op, id) {
+
     var isValid = true;
-    if ((ust && ust)
-        && lastUst === ust
-        && lastUsg === usg) {
+    if (id && lastId === id) { //frontend sets id on calls
         console.log("Api received multiple calls...");
-        console.log("type: " + type + " val: " + val + " op: " + op + " dT: " + lastCall - new Date());
         isValid = false;
-    } else if (type === lastType
+        
+    } else if (!id //gmail doesn't
+        && type === lastType
         && val === lastVal
         && op === lastOp
-        && lastCall > new Date()
+        && lastCall > (new Date()).setSeconds((new Date()).getSeconds() - delaytime)
     ) {
         console.log("too early, at least " + delaytime + "s between api-calls (prevent douplicates)");
-        console.log("type: " + type + " val: " + val + " op: " + op + " dT: " + lastCall - new Date());
         isValid = false;
+    }else{
+        lastCall = new Date();
     }
     lastType = type;
     lastVal = val;
     lastOp = op;
-    lastCall = new Date();
-    if (ust && ust) {
-        lastUst = ust;
-        lastUsg = usg;
+    if (id) {
+        lastId = id;
     }
     return isValid;
 }
@@ -65,14 +62,13 @@ app.get('/addtocount', async function (req, res) {
 
     let typ = req.query.typ;
     let nr = req.query.nr
-    let ust = req.query.ust;
-    let usg = req.query.usg;
+    let id = req.query.id;
     console.log(req.query);
     console.log(typ + ":" + nr);
 
     res.set('Content-Type', 'application/json');
 
-    if (!validateCall(typ, nr, "add", ust, usg)) {
+    if (!validateCall(typ, nr, "add", id)) {
         console.log("Too soon!");
         res.send('{"message":"Too soon!"}');
         return;
@@ -92,15 +88,14 @@ app.get('/addtocount', async function (req, res) {
 app.get('/setcount', async function (req, res) {
     let typ = req.query.typ;
     let nr = req.query.nr
-    let ust = req.query.ust;
-    let usg = req.query.usg;
+    let id = req.query.id;
     
     console.log(req.query);
     console.log(typ + ":" + nr);
     
     res.set('Content-Type', 'application/json');
 
-    if (!validateCall(typ, nrToAdd, "set", ust, usg)) {
+    if (!validateCall(typ, nrToAdd, "set", id)) {
         console.log("Too soon!");
         res.send('{"message":"Too soon!"}');
         return;
