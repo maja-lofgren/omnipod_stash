@@ -88,12 +88,6 @@ async function checkState(Typ) {
                         {
                             "$count": "totalCount"
                         }
-                    //     {
-                    //         "$group": {
-                    //             "_id": "$eventType",
-                    //             "count": { "$sum": 1 }
-                    //         }
-                    //     }
                     ])
                     .next();
 
