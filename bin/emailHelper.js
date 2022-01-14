@@ -16,7 +16,7 @@ function sendEmail(CountLeft, Typ) {
 
     var today = new Date();
     let url = "https://" + process.env.HEROKU_APP_NAME + ".herokuapp.com";
-    var htmlContent = '<div style="font-size: 20px;">Du har nu bara: ' + CountLeft + " kvar...<br/>";
+    var htmlContent = '<div style="font-size: 20px; color:black;">Du har nu bara: ' + CountLeft + " kvar...<br/>";
     htmlContent += 'Klicka <a href="' + url + '/' + Typ + '" style="font-size: 30px;">här</a> för att öppna kontroll-sidan<br/>';
     htmlContent += 'Eller använd snabblänkarna för att lägga till önskat antal ' + Typ + '(er):<br/>'
     htmlContent += '<a href="' + url + '/addtocount?typ=' + Typ + '&source=gmail&nr=-1" style="margin-right:45px; font-size: 30px;">-1</a><a href="' + url + '/addtocount?typ=' + Typ + '&source=gmail&nr=1" style="margin-right:45px; font-size: 30px;">+1</a>        ';
@@ -32,11 +32,12 @@ function sendEmail(CountLeft, Typ) {
     };
 
     if(process.env.LANGUAGE == "ENG"){
-        htmlContent = 'You only have: ' + CountLeft + " left...<br/>";
-        htmlContent += 'Click <a href="' + url + '/' + Typ + '">here</a> to launch the control-site<br/>';
+        htmlContent = '<div style="font-size: 20px; color:black;">You only have: ' + CountLeft + " left...<br/>";
+        htmlContent += 'Click <a href="' + url + '/' + Typ + '" style="font-size: 30px;">here</a> to launch the control-web-page<br/>';
         htmlContent += 'Or use one of these quick-buttons to add to the ' + Typ + '-stash:<br/>'
         htmlContent += '<a href="' + url + '/addtocount?typ=' + Typ + '&source=gmail&nr=-1" style="margin-right:45px; font-size: 30px;">-1</a><a href="' + url + '/addtocount?typ=' + Typ + '&source=gmail&nr=1" style="margin-right:45px; font-size: 30px;">+1</a>        ';
         htmlContent += '<a href="' + url + '/addtocount?typ=' + Typ + '&source=gmail&nr=5" style="margin-right:45px; font-size: 30px;">+5</a><a href="' + url + '/addtocount?typ=' + Typ + '&source=gmail&nr=10" style="margin-right:45px; font-size: 30px;">+10</a>';
+        htmlContent += '</div>';
         
         mailOptions = {
             from: from,
