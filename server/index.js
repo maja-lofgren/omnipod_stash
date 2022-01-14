@@ -24,7 +24,7 @@ app.get('/getcount/:typ', async function (req, res) {
     res.send('{"Count":"' + count + '"}');
 });
 
-const delaytime = 5;
+const delaytime = 10;
 var lastCall = new Date();
 var lastType = '';
 var lastVal = '';
@@ -72,7 +72,7 @@ app.get('/addtocount', async function (req, res) {
 
     if (!validateCall(typ, nr, "add", id, source)) {
         console.log("Too soon!");
-        res.send('{"message":"Too soon!"}');
+        res.send('{"message":"At least 10s between link-clicks of same link to prevent douplicates!"}');
         return;
     }
 
@@ -99,7 +99,7 @@ app.get('/setcount', async function (req, res) {
 
     if (!validateCall(typ, nrToAdd, "set", id, source)) {
         console.log("Too soon!");
-        res.send('{"message":"Too soon!"}');
+        res.send('{"message":"At least 10s between link-clicks of same link to prevent douplicates!"}');
         return;
     }
 
