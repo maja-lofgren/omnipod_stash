@@ -66,23 +66,40 @@ async function checkState(Typ) {
                             "$match": {
                                 "created_at": {
                                     "$gt": lastKnownChange,
-                                    "$lt": new Date().toISOString()
+                                    "$lt": new Date().toISOString() //found a logged "Sensor Change" with year 2106 which always logged as new used
                                 },
                                 "eventType": eType
                             }
                         },
                         {
-                            "$group": {
-                                "_id": "$eventType",
+                            "$group": { //group to only count one sensor change/day! 
+                                "_id": {
+                                    'year': { '$year': { $dateFromString: { dateString: "$created_at" } } },
+                                    'month': { '$month': { $dateFromString: { dateString: "$created_at" } } },
+                                    'day': { '$dayOfMonth': { $dateFromString: { dateString: "$created_at" } } },
+                                },
                                 "count": { "$sum": 1 }
                             }
+                            // "$group": {
+                            //     "_id": "$eventType",
+                            //     "count": { "$sum": 1 }
+                            // }
+                        },
+                        {
+                            "$count": "totalCount"
                         }
+                    //     {
+                    //         "$group": {
+                    //             "_id": "$eventType",
+                    //             "count": { "$sum": 1 }
+                    //         }
+                    //     }
                     ])
                     .next();
 
 
                 if (docTreatments != null) {
-                    newUsedcount = Number(docTreatments.count);
+                    newUsedcount = Number(docTreatments.totalCount);
                 }
                 console.log("newUsed" + Typ + ":" + newUsedcount);
 

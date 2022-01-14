@@ -122,4 +122,10 @@ open the /frontend-folder in different vscode and run its debug config separatel
 - task needs to be placed under /bin/-folder and without file-ending
 - task is a node file and has a start-line of `#! /app/.heroku/node/bin/node` and ´process.exit();´ to close the runner when finnished. 
 - When deployed to heroku, test by "More"-button/"Run Console" and run the filename in the "heroku run"-box.'
-- test script by creating copy with file-ending .js and remove the first line, and test with `node testfile.js`
+- test script with breakpoints: 
+    - create a copy with file-ending .js
+    - remove the first line (`#! /app/.heroku/node/bin/node`)
+    - put function-call at end of file (without await)
+    - ctrl+shift+p => search "Auto atach" and "Only With Flag" in vscode
+        - Restart termial!!!
+    - run test: 'node --inspect ./bin/test.js'
