@@ -30,7 +30,8 @@ Fair price to pay for hosting a free site!
 5. leave region to United States => create app
 6. Under tab "Deploy" and left side "Deployment method" choose GitHub
 7. Since you're already connected from your Nigtscout-app - click purple "Search" button to list all of your repos, locate the omnipod-stash-fork-repo and hit the "Connect" button that appears next to it.
-8. Scroll down to the very bottom and hit "Deploy Branch" (still having the "master"-branch selected) to install the app
+8. Scroll down and enable the "Enable Automatic Deploy" (to tell Heroku to automatically trigger an installation of your fork when you decide to pull all the update from my github-fork to yours (bug-fixes etc))
+9. Scroll down to the very bottom and hit "Deploy Branch" to install the app on Heroku. 
 
 ## Enter config vars
 Now you need to enter the Config-vars (same as you did with Nightscout)
