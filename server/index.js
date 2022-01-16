@@ -18,11 +18,12 @@ app.use(express.static(path.resolve(__dirname, '../frontend/build')));
 const validTypes = ["pod", "sensor", "insulin"];
 app.get('/getcount/:typ', async function (req, res) {
     res.set('Content-Type', 'application/json');
-    if(!validTypes.includes(typ.params.typ)){
+    let typ = req.params.typ;
+    if(!validTypes.includes(typ)){
         res.send('{"message":"Not a valid call!"}');
         return;
     }
-    let count = await dbhelper.getCount(req.params.typ);
+    let count = await dbhelper.getCount(typ);
     res.send('{"Count":"' + count + '"}');
 });
 

@@ -85,7 +85,7 @@ export default function Mainpage({ Typ }) {
 
             if (res.data !== undefined) {
                 console.log("lastLogs: " + res.data);
-                setlastActions(JSON.parse(res.data));
+                setlastActions(res.data);
             }
 
         } catch (e) {
