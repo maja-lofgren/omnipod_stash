@@ -38,6 +38,7 @@ body {
 .logg {
   font-size: 15px;
   text-align: left;
+  white-space: nowrap;
 }
 
 .App-link {
