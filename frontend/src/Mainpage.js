@@ -172,7 +172,7 @@ export default function Mainpage({ Typ }) {
             <br />
             <br />
             <div className="logg">
-                {lastActions?.map((it) => <text >{it.date.substring(0, 19).replace("T", " ") + " (UTC)"}, count: {it.Count}, diff: {it.diff}, source: {it.Source}<br /> </text>)}
+                {lastActions?.map((it) => <text >{it.date.substring(0, 19).replace("T", " ") + " (UTC)"}, Count: {it.Count}, ({it.diff < 0 ? it.diff : "+" + it.diff}, {it.Source})<br /> </text>)}
                 {/* &#40;&#41; */}
             </div>
             <br />
