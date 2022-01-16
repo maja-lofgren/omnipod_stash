@@ -122,7 +122,7 @@ export default function Mainpage({ Typ }) {
 
             <div className="logg">
                 {lastActions ? <>
-                    Last detected {Typ} change:
+                    Last detected {Typ} change
                     <br />
                     {lastActions[0].LastKnownChange.substring(0, 19).replace("T", " ") + " (UTC)"}
                 </> : ""
@@ -171,6 +171,7 @@ export default function Mainpage({ Typ }) {
 
             <br />
             <br />
+            History
             <div className="logg">
                 {lastActions?.map((it) => <text >{it.date.substring(0, 19).replace("T", " ") + " (UTC)"}, Count: {it.Count}, ({it.diff < 0 ? it.diff : "+" + it.diff}, {it.Source})<br /> </text>)}
                 {/* &#40;&#41; */}
