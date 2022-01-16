@@ -39,6 +39,7 @@ body {
   font-size: 15px;
   text-align: left;
   white-space: nowrap;
+  float: left;
 }
 
 .App-link {
