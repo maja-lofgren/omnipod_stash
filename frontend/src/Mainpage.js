@@ -85,7 +85,7 @@ export default function Mainpage({ Typ }) {
             const res = await axios.get('/getlastlogs/' + Typ + '/' + nrOfLogs);
 
             if (res.data !== undefined) {
-                console.log("lastLogs: " + res.data);
+                //console.log("lastLogs: " + res.data);
                 setlastActions(res.data);
             }
 

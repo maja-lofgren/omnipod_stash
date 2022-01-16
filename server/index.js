@@ -36,8 +36,6 @@ app.get('/getlastlogs/:typ/:nr', async function (req, res) {
         return;
     }
     let lastActions = await dbhelper.getLastActions(typ, nr);
-    var a = JSON.stringify(lastActions);
-    console.log(a);
     res.send(JSON.stringify(lastActions));
 });
 
