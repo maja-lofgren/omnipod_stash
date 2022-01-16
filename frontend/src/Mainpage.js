@@ -8,11 +8,17 @@ export default function Mainpage({ Typ }) {
     const [nrTotal, setNrTotal] = useState();
     const [totalCount, setTotalCount] = useState("-");
     const [buttonActive, setbuttonActive] = useState(true);
-
+    const [lastActions, setlastActions] = useState();
+    const nrOfLogsToShow = 10;
     useEffect(async () => {
         setTotalCount("-")
         await getCount();
-    }, [navigate]) //run only on navigation change!
+        await getlastlogs(nrOfLogsToShow);
+    }, [navigate]) //run only on navigation change!    
+
+    useEffect(async () => {
+        await getlastlogs(nrOfLogsToShow);
+    }, [totalCount])
 
     const updateCountAddition = async (e) => {
         try {
@@ -28,7 +34,7 @@ export default function Mainpage({ Typ }) {
                 alert("Not a number!")
                 return;
             }
-            await axios.get('/addtocount', { params: { typ: Typ, nr: add, source:'gui', id: new Date() } });
+            await axios.get('/addtocount', { params: { typ: Typ, nr: add, source: 'gui', id: new Date() } });
             await getCount();
         } catch (e) {
             console.log(e);
@@ -47,7 +53,7 @@ export default function Mainpage({ Typ }) {
                 alert("Not a number!")
                 return;
             }
-            const res = await axios.get('/setcount', { params: { typ: Typ, nr: countTotal, source:'gui', id: new Date() } });
+            const res = await axios.get('/setcount', { params: { typ: Typ, nr: countTotal, source: 'gui', id: new Date() } });
             await getCount();
         } catch (e) {
             console.log(e);
@@ -56,14 +62,30 @@ export default function Mainpage({ Typ }) {
         }
     };
     const getCount = async () => {
+
         try {
             console.log("getCount of: " + Typ);
             console.log('/getcount/' + Typ);
-            const res = await axios.get('/getcount/' + Typ);    
-            
+            const res = await axios.get('/getcount/' + Typ);
+
             if (res.data.Count !== undefined) {
                 console.log("Count: " + res.data.Count);
                 setTotalCount(res.data.Count);
+            }
+
+        } catch (e) {
+            console.log(e);
+        }
+    };
+    const getlastlogs = async (nrOfLogs) => {
+        try {
+            console.log("getLastLogs of: " + Typ);
+            console.log('/getlastlogs/' + Typ + '/' + nrOfLogs);
+            const res = await axios.get('/getlastlogs/' + Typ + '/' + nrOfLogs);
+
+            if (res.data !== undefined) {
+                console.log("lastLogs: " + res.data);
+                setlastActions(JSON.parse(res.data));
             }
 
         } catch (e) {
@@ -90,14 +112,22 @@ export default function Mainpage({ Typ }) {
             </div>
             <br />
             <text style={{ fontSize: "40px" }}>
-               In storage
+                In storage
             </text>
             <text style={{ fontSize: "70px" }}>
                 {totalCount}
             </text>
+            <br />
 
-            <br /><br />
-
+            <div className="logg">
+                {lastActions ? <>
+                    Last detected {Typ} change:
+                    <br />
+                    {lastActions[lastActions.length - 1].LastKnownChange.substring(0, 19).replace("T", " ") + " (UTC)"}
+                </> : ""
+                }
+            </div>
+            <br />
             <div style={{ textAlign: 'center' }}>
                 <div title={"adds x-number of " + Typ + "s to stash (negative or positive number)"}>
                     <p style={{ marginBottom: '-20px', marginTop: '-10px' }}>Add/Remove {Typ}s</p>
@@ -126,18 +156,24 @@ export default function Mainpage({ Typ }) {
             </div>
             <br />
             <div title={"Same as Add " + Typ + "s above, but with predefined values"}>
-                <p style={{ textAlign: 'center' }}> Quick-alter</p>
+                <p style={{ textAlign: 'center' }}>Quick-add</p>
                 <button onClick={() => updateCountAddition(-1)} disabled={!buttonActive}>-1</button>
                 <button onClick={() => updateCountAddition(1)} disabled={!buttonActive}>1</button>
-                <br />
-                <br />
                 <button onClick={() => updateCountAddition(5)} disabled={!buttonActive}>5</button>
+
+                <br />
+                <br />
                 <button onClick={() => updateCountAddition(10)} disabled={!buttonActive}>10</button>
+                <button onClick={() => updateCountAddition(20)} disabled={!buttonActive}>20</button>
+                <button onClick={() => updateCountAddition(40)} disabled={!buttonActive}>40</button>
             </div>
 
             <br />
             <br />
-
+            <div className="logg">
+                {lastActions?.map((it) => <text >{it.date.substring(0, 19).replace("T", " ") + " (UTC)"}, count: {it.Count}, diff: {it.diff} <br /> </text>)}
+                {/* &#40;&#41; */}
+            </div>
             <br />
             {/* <text>Email to: {process.env.EMAIL_TO}</text>
             <text>Send email when count is less than: {Typ == "pods" ? process.env.PODLIMIT : process.env.SENSORLIMIT}</text> */}

@@ -122,7 +122,7 @@ async function checkState(Typ) {
             //create new db-object
             var dbEntity = {
                 date: new Date().toISOString(),
-                diff: -newUsedcount,
+                diff: Number(-newUsedcount),
                 Count: typeCount,
                 LastKnownChange: lastChange,
                 Operation: "Scheduled Task " + Typ,

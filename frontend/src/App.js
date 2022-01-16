@@ -7,6 +7,8 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+      </header>
+      <body>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Mainpage Typ="pod" />} />
@@ -15,7 +17,7 @@ function App() {
             <Route path="/insulin" element={<Mainpage Typ="insulin" />} />
           </Routes>
         </BrowserRouter>
-      </header>
+      </body>
     </div>
   );
 }

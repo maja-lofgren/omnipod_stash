@@ -15,13 +15,29 @@ app.use(express.static(path.resolve(__dirname, '../frontend/build')));
 // Answer API requests with param ("/addtocount/pod/10") 
 // For params instead of /:sdgf/:dfsf ("/addtocount?nr=23&type=omnipod") see: https://stackoverflow.com/a/17008027
 
-
+const validTypes = ["pod", "sensor", "insulin"];
 app.get('/getcount/:typ', async function (req, res) {
-
-    let count = await dbhelper.getCount(req.params.typ);
-
     res.set('Content-Type', 'application/json');
+    if(!validTypes.includes(typ.params.typ)){
+        res.send('{"message":"Not a valid call!"}');
+        return;
+    }
+    let count = await dbhelper.getCount(req.params.typ);
     res.send('{"Count":"' + count + '"}');
+});
+
+app.get('/getlastlogs/:typ/:nr', async function (req, res) {
+    res.set('Content-Type', 'application/json');
+    let typ = req.params.typ;
+    let nr = req.params.nr; 
+    if(!validTypes.includes(typ) || isNaN(+nr)){
+        res.send('{"message":"Not a valid call!"}');
+        return;
+    }
+    let lastActions = await dbhelper.getLastActions(typ, nr);
+    var a = JSON.stringify(lastActions);
+    console.log(a);
+    res.send(JSON.stringify(lastActions));
 });
 
 const delaytime = 10;

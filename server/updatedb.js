@@ -57,7 +57,7 @@ async function updatedb(nrToAdd, Typ, source, resetdb = false) {
         //create new db-object
         var dbEntity = {
             date: new Date().toISOString(),
-            diff: nrToAdd,
+            diff: Number(nrToAdd),
             Count: parseInt(count) + parseInt(nrToAdd),
             LastKnownChange: lastKnownChange,
             Operation: operation,
@@ -124,6 +124,52 @@ async function getCount(Typ) {
     return count;
 };
 
+async function getLastActions(Typ, nrOfLogs) {
+    var url = process.env.CONNSTR_mongo;
+    console.log("get" + Typ + " lastLogs nrOfLogs: " + nrOfLogs);
+
+    // create a client to mongodb
+    var MongoClient = require('mongodb').MongoClient;
+
+    // make client connect to mongo service
+    const dbClient = await MongoClient.connect(url);
+    if (!dbClient) {
+        console.log("failed to connect to mongodb!\nCheck your connection string: " + process.env.CONNSTR_mongo)
+        return;
+    }
+    var db = null;
+    try {
+        db = dbClient.db('nightscout');
+        // db pointing to newdb
+        //console.log("Switched to " + db.databaseName + " database");
+
+    } catch (err) {
+        dbClient.close();
+        console.log(err);
+        return;
+    }
+    var returnArray = [];
+    try {
+        //fetch last entry in omnipodstash
+        returnArray = await db.collection("omnipodstash")
+            .find({ Type: Typ }, { projection: { _id:0 } })
+            .sort({ $natural: -1 }) //bottomsup
+            .limit(Number(nrOfLogs))
+            .toArray();
+
+        console.log("returnArray:");
+        console.log(returnArray);
+
+    } catch (err) {
+        console.log(err);
+    } finally {
+        // close the connection to db when you are done with it
+        dbClient.close();
+    }
+
+    return returnArray;
+};
+
 async function resetCount(Typ) {
     var url = process.env.CONNSTR_mongo;
     console.log("resetting db counter to 0");
@@ -174,4 +220,4 @@ async function resetCount(Typ) {
         dbClient.close();
     }
 };
-module.exports = { updatedb, getCount, resetCount }
+module.exports = { updatedb, getCount, getLastActions, resetCount }
