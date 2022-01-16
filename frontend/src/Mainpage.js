@@ -10,6 +10,7 @@ export default function Mainpage({ Typ }) {
     const [buttonActive, setbuttonActive] = useState(true);
     const [lastActions, setlastActions] = useState();
     const nrOfLogsToShow = 10;
+
     useEffect(async () => {
         setTotalCount("-")
         await getCount();
@@ -123,7 +124,7 @@ export default function Mainpage({ Typ }) {
                 {lastActions ? <>
                     Last detected {Typ} change:
                     <br />
-                    {lastActions[lastActions.length - 1].LastKnownChange.substring(0, 19).replace("T", " ") + " (UTC)"}
+                    {lastActions[0].LastKnownChange.substring(0, 19).replace("T", " ") + " (UTC)"}
                 </> : ""
                 }
             </div>
