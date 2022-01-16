@@ -157,8 +157,8 @@ async function getLastActions(Typ, nrOfLogs) {
             .limit(Number(nrOfLogs))
             .toArray();
 
-        console.log("returnArray:");
-        console.log(returnArray);
+        //console.log("returnArray:");
+        //console.log(returnArray);
 
     } catch (err) {
         console.log(err);
