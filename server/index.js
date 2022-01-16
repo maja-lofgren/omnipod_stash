@@ -53,7 +53,7 @@ function validateCall(type, val, op, id, source) {
         console.log("Api received multiple calls...");
         isValid = false;
         
-    } else if (source && source === "gmail"
+    } else if (source && source === "email"
         && type === lastType
         && val === lastVal
         && op === lastOp
@@ -106,13 +106,14 @@ app.get('/setcount', async function (req, res) {
     let typ = req.query.typ;
     let nr = req.query.nr
     let id = req.query.id;
+    let source = req.query.source;
     
     console.log(req.query);
     console.log(typ + ":" + nr);
     
     res.set('Content-Type', 'application/json');
 
-    if (!validateCall(typ, nrToAdd, "set", id, source)) {
+    if (!validateCall(typ, nr, "set", id, source)) {
         console.log("Too soon!");
         res.send('{"message":"At least 10s between link-clicks of same link to prevent douplicates!"}');
         return;
