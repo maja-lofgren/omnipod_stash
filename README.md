@@ -59,7 +59,14 @@ To get you app to update/check your stash once a day, you need to setup a Task s
 1. Open the "Resources"-tab and in the Add-ons searchbox type "heroku scheduler" and click on it
 2. Make sure you have the "Standard - Free"-plan selected (default) and press "Submit order from" 
 3. Click on the newly added "Heroku Scheduler" (opens up new page)
-Now repete these steps for the ones you'd like to get updates/notifications from: (pod/sensor/insulin)
+4. "Create job"
+5. "Every day at..." - and select a time 
+6. after the $ paste "runAllTasks" (without the "")
+7. click "save job"
+
+**If you dont want the service to notify you of all three types**, you can **instead** specify the events that you want. 
+(remove or reuse/rename the event you created for "runAllEvents")
+Rrepete these steps for the ones you'd like to get updates/notifications from: (pod/sensor/insulin)
 4. "Create job"
 5. "Every day at..." - and select a time 
 6. after the $ paste one of the three tasks: 
