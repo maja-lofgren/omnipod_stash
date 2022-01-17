@@ -20,7 +20,12 @@ Fair price to pay for hosting a free site!
 
 
 # Installation on Heroku
-(If you just want to update, see the [Update](#update)-section)
+- If you just want to update, see the [Update](#update)-section
+- This installation is done in three steps: 
+    - [App installation](#app-installation) (instllation on heroku)
+    - [Enter config vars](#enter-config-vars) (give the app your credentials etc)
+    - [Heroku Scheduler](#heroku-scheduler) (setup a task that will run once a day to check your status and send email)
+
 ## App installation
 1. Make a fork of this git-repo to your github 
     - You must be logged in to your github account!
@@ -88,6 +93,7 @@ If you already have this installed and just want to update your fork with my lat
  - If not: 
    - Open your site at [heroku.com](https://dashboard.heroku.com/) 
    - Click the Deploy-tab and scroll down to the very bottom and hit "Deploy Branch" to install.
+
 
 
 # Technical Overview (you can stop reading here...)
