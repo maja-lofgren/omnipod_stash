@@ -13,10 +13,8 @@ export default function Mainpage({ Typ }) {
 
     const nrOfLogsToShow = 10;
     useEffect(async () => {
-        setTotalCount("-")
         setIsLoading(true);
         await getCount();
-        await getlastlogs(nrOfLogsToShow);
     }, [navigate]) //run only on navigation change!    
 
     useEffect(async () => {
