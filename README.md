@@ -79,6 +79,15 @@ Rrepete these steps for the ones you'd like to get updates/notifications from: (
 
 Open your website by clicking the button "Open app" (location: top right) and see if it works to "set count" or "add count" on pods/sensors/insulin
 
+# Update
+If you already have this installed and just want to update your fork with my latest commits: 
+1. click the button "Fetch upstream" (just under the green "Code"-button located top right-ish)
+  - Click the green "Fetch and merge"
+2. If you followed the installation above and "Enable Automatic Deploy" - then congratulations: you'red done and will have the updates installed and deployed in 5mins. 
+ - If not: 
+   - Open your site at [heroku.com](https://dashboard.heroku.com/) 
+   - Click the Deploy-tab and scroll down to the very bottom and hit "Deploy Branch" to install.
+
 
 # Technical Overview (you can stop reading here...)
 This app consists of 3 parts: 
