@@ -98,16 +98,11 @@ app.get('/addtocount', async function (req, res) {
         return;
     }
 
-    if (isNaN(+nr)) {
-        console.log("Not a number!");
-        res.send('{"message":"not a number!"}');
-    } else {
-        await dbhelper.updatedb(nr, typ, source);
-        let count = await dbhelper.getCount(typ);
-        res.send('{"message":"' + nr + ' ' + typ + 's added to ' + typ + '-stash",'
-            + '"Current count": ' + count + '}');
+    await dbhelper.updatedb(nr, typ, source);
+    let count = await dbhelper.getCount(typ);
+    res.send('{"message":"' + nr + ' ' + typ + 's added to ' + typ + '-stash",'
+        + '"Current count": ' + count + '}');
 
-    }
 });
 
 app.get('/setcount', async function (req, res) {
@@ -135,13 +130,8 @@ app.get('/setcount', async function (req, res) {
         return;
     }
 
-    if (isNaN(+nr)) {
-        console.log("Not a number!");
-        res.send('{"message":"not a number!"}');
-    } else {
-        await dbhelper.updatedb(nr, typ, source, true);
-        res.send('{"message":"Stash count of type: ' + typ + ' is reset!", "Current count": ' + nr + '}');
-    }
+    await dbhelper.updatedb(nr, typ, source, true);
+    res.send('{"message":"Stash count of type: ' + typ + ' is reset!", "Current count": ' + nr + '}');
 });
 
 
