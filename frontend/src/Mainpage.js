@@ -74,11 +74,12 @@ export default function Mainpage({ Typ }) {
             if (res.data.Count !== undefined) {
                 console.log("Count: " + res.data.Count);
                 setTotalCount(res.data.Count);
-                setIsLoading(false);
             }
 
         } catch (e) {
             console.log(e);
+        } finally{
+            setIsLoading(false);
         }
     };
     const getlastlogs = async (nrOfLogs) => {
