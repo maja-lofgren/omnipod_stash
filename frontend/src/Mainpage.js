@@ -100,7 +100,11 @@ export default function Mainpage({ Typ }) {
             console.log(e);
         }
     };
-
+    function dateToString(d){
+        d = new Date(d);
+        return d.getFullYear() + "-" + ("0"+(d.getMonth()+1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2) 
+        + " " + ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + ":" + ("0" + d.getSeconds()).slice(-2);
+    }
 
     return (
         <>
@@ -127,12 +131,12 @@ export default function Mainpage({ Typ }) {
             </text>
             <br />
 
-            <div className="logg">
+            <div className="logg" style={{textAlign:'center'}}>
                 {lastActions && !isLoading ? 
                 <>
                     Last detected {Typ} change
                     <br />
-                    {lastActions[0].LastKnownChange.substring(0, 19).replace("T", " ") + " (UTC)"}
+                    {dateToString(lastActions[0].LastKnownChange)}
                 </> : <><br /><br /></>
                 }
             </div>
@@ -181,7 +185,7 @@ export default function Mainpage({ Typ }) {
             <br />
             History
             <div className="logg" >
-                {lastActions?.map((it) => <text >{it.date.substring(0, 19).replace("T", " ") + " (UTC)"}, count: {it.Count}, ({it.diff < 0 ? it.diff : "+" + it.diff}, {it.Source})<br /> </text>)}
+                {lastActions?.map((it) => <text >{dateToString(it.date)}, count: {it.Count}, ({it.diff < 0 ? it.diff : "+" + it.diff}, {it.Source})<br /> </text>)}
             </div>
             <br />
             {/* <text>Email to: {process.env.EMAIL_TO}</text>
