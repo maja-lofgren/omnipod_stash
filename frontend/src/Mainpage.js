@@ -23,14 +23,16 @@ export default function Mainpage({ Typ }) {
     }, [totalCount])
 
     const updateCountAddition = async (e) => {
+        setLastActions(null);
+        setIsLoading(true);
+        setNrToAdd("");
+
         try {
             var add = nrToAdd;
             if (e != null) {
                 add = e;
             }
             console.log("adding " + add);
-            setNrToAdd("");
-            setIsLoading(true);
             if (isNaN(+add)) {
                 console.log("not a number!");
                 alert("Not a number!")
@@ -45,11 +47,12 @@ export default function Mainpage({ Typ }) {
         }
     };
     const setCountTotal = async () => {
+        setIsLoading(true);
+        setLastActions(null);
+        setNrTotal("");
+
         try {
             let countTotal = nrTotal;
-            setNrTotal("");
-            setIsLoading(true);
-
             if (isNaN(+countTotal)) {
                 console.log("not a number!");
                 alert("Not a number!")
