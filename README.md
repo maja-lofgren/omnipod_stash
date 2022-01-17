@@ -55,6 +55,8 @@ Now you need to enter the Config-vars (same as you did with Nightscout)
     - **SENSORLIMIT** = 3
 
 ## Heroku Scheduler
+OBS! Heroku does not promise that the task will be run at every scheduled time! I have noticed that it skipps tasks once in a while, but that's ok, as long as it doesn't skip several days in a row!
+
 To get you app to update/check your stash once a day, you need to setup a Task scheduler.
 1. Open the "Resources"-tab and in the Add-ons searchbox type "heroku scheduler" and click on it
 2. Make sure you have the "Standard - Free"-plan selected (default) and press "Submit order from" 
