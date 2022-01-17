@@ -21,8 +21,8 @@ Fair price to pay for hosting a free site!
 
 # Installation on Heroku
 - If you just want to update, see the [Update](#update)-section
-- This installation is done in three steps: 
-    - [App installation](#app-installation) (instllation on heroku)
+- This installation is done in three easy-to-follow steps: 
+    - [App installation](#app-installation) (installation on heroku)
     - [Enter config vars](#enter-config-vars) (give the app your credentials etc)
     - [Heroku Scheduler](#heroku-scheduler) (setup a task that will run once a day to check your status and send email)
 
