@@ -20,6 +20,7 @@ Fair price to pay for hosting a free site!
 
 
 # Installation on Heroku
+(If you just want to update, see the [Update](#update)-section)
 ## App installation
 1. Make a fork of this git-repo to your github 
     - You must be logged in to your github account!
@@ -79,7 +80,7 @@ Rrepete these steps for the ones you'd like to get updates/notifications from: (
 
 Open your website by clicking the button "Open app" (location: top right) and see if it works to "set count" or "add count" on pods/sensors/insulin
 
-# Update
+## Update
 If you already have this installed and just want to update your fork with my latest commits: 
 1. click the button "Fetch upstream" (just under the green "Code"-button located top right-ish)
   - Click the green "Fetch and merge"
