@@ -178,7 +178,7 @@ export default function Mainpage({ Typ }) {
             <br />
             History
             <div className="logg" >
-                {lastActions?.map((it) => <text >{it.date.substring(0, 19).replace("T", " ") + " (UTC)"}, count: {it.Count}, diff: {it.diff} <br /> </text>)}
+                {lastActions?.map((it) => <text >{it.date.substring(0, 19).replace("T", " ") + " (UTC)"}, count: {it.Count}, ({it.diff < 0 ? it.diff : "+" + it.diff}, {it.Source})<br /> </text>)}
             </div>
             <br />
             {/* <text>Email to: {process.env.EMAIL_TO}</text>
