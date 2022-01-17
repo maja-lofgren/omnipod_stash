@@ -121,7 +121,7 @@ export default function Mainpage({ Typ }) {
                 In storage
             </text>
             <text style={{ fontSize: "70px" }}>
-                {isLoading ? <BallTriangle color="#00BFFF" height={70} width={70} /> : totalCount}
+                {isLoading ? <BallTriangle color="#00BFFF" height={80} width={80} /> : totalCount}
             </text>
             <br />
 
