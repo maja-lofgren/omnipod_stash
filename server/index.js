@@ -19,7 +19,7 @@ const validTypes = ["pod", "sensor", "insulin"];
 app.get('/getcount/:typ', async function (req, res) {
     res.set('Content-Type', 'application/json');
     let typ = req.params.typ;
-    if(!validTypes.includes(typ)){
+    if (!validTypes.includes(typ)) {
         res.send('{"message":"Not a valid call!"}');
         return;
     }
@@ -30,8 +30,8 @@ app.get('/getcount/:typ', async function (req, res) {
 app.get('/getlastlogs/:typ/:nr', async function (req, res) {
     res.set('Content-Type', 'application/json');
     let typ = req.params.typ;
-    let nr = req.params.nr; 
-    if(!validTypes.includes(typ) || isNaN(+nr)){
+    let nr = req.params.nr;
+    if (!validTypes.includes(typ) || isNaN(+nr)) {
         res.send('{"message":"Not a valid call!"}');
         return;
     }
@@ -52,7 +52,7 @@ function validateCall(type, val, op, id, source) {
     if (id && lastId === id) { //frontend sets id on calls
         console.log("Api received multiple calls...");
         isValid = false;
-        
+
     } else if (source && source === "email"
         && type === lastType
         && val === lastVal
@@ -61,7 +61,7 @@ function validateCall(type, val, op, id, source) {
     ) {
         console.log("too early, at least " + delaytime + "s between api-calls (prevent douplicates)");
         isValid = false;
-    }else{
+    } else {
         lastCall = new Date();
     }
     lastType = type;
@@ -79,15 +79,22 @@ app.get('/addtocount', async function (req, res) {
     let nr = req.query.nr
     let id = req.query.id;
     let source = req.query.source;
-    
+
     console.log(req.query);
     console.log(typ + ":" + nr);
 
     res.set('Content-Type', 'application/json');
+    if (!validTypes.includes(typ) || isNaN(+nr)) {
+        res.send('{"message":"Not a valid call!"}');
+        return;
+    }
 
     if (!validateCall(typ, nr, "add", id, source)) {
         console.log("Too soon!");
-        res.send('{"message":"At least 10s between link-clicks of same link to prevent douplicates!"}');
+        let count = await dbhelper.getCount(typ);
+        res.send('{"message":"Multiple calls to API registered! Wait at least 10s between link-clicks of same link to prevent douplicates!", '
+            + '"Info":"Your action might still have been registered ok!", '
+            + '"Current count": ' + count + '}');
         return;
     }
 
@@ -97,7 +104,8 @@ app.get('/addtocount', async function (req, res) {
     } else {
         await dbhelper.updatedb(nr, typ, source);
         let count = await dbhelper.getCount(typ);
-        res.send('{"message":"' + nr + ' ' + typ + 's added to ' + typ + '-stash. New count: ' + count + '"}');
+        res.send('{"message":"' + nr + ' ' + typ + 's added to ' + typ + '-stash",'
+            + '"Current count": ' + count + '}');
 
     }
 });
@@ -107,15 +115,23 @@ app.get('/setcount', async function (req, res) {
     let nr = req.query.nr
     let id = req.query.id;
     let source = req.query.source;
-    
+
     console.log(req.query);
     console.log(typ + ":" + nr);
-    
+
     res.set('Content-Type', 'application/json');
+
+    if (!validTypes.includes(typ) || isNaN(+nr)) {
+        res.send('{"message":"Not a valid call!"}');
+        return;
+    }
 
     if (!validateCall(typ, nr, "set", id, source)) {
         console.log("Too soon!");
-        res.send('{"message":"At least 10s between link-clicks of same link to prevent douplicates!"}');
+        let count = await dbhelper.getCount(typ);
+        res.send('{"message":"Multiple calls to API registered! Wait at least 10s between link-clicks of same link to prevent douplicates!", '
+            + '"Info":"Your action might still have been registered ok!", '
+            + '"Current count": ' + count + '}');
         return;
     }
 
@@ -124,7 +140,7 @@ app.get('/setcount', async function (req, res) {
         res.send('{"message":"not a number!"}');
     } else {
         await dbhelper.updatedb(nr, typ, source, true);
-        res.send('{"message":"Stash is reset to: ' + nr + ' ' + typ + 's!"}');
+        res.send('{"message":"Stash count of type: ' + typ + ' is reset!", "Current count": ' + nr + '}');
     }
 });
 
