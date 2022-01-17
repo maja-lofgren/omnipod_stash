@@ -67,13 +67,13 @@ To get you app to update/check your stash once a day, you need to setup a Task s
 **If you dont want the service to notify you of all three types**, you can **instead** specify the events that you want. 
 (remove or reuse/rename the event you created for "runAllEvents")
 Rrepete these steps for the ones you'd like to get updates/notifications from: (pod/sensor/insulin)
-4. "Create job"
-5. "Every day at..." - and select a time 
-6. after the $ paste one of the three tasks: 
+1. "Create job"
+2. "Every day at..." - and select a time 
+3. after the $ paste one of the three tasks: 
     - checkPodState
     - checkSensorState
     - checkInsulinState
-7. click "save job" and repeat by clicking "Add Job" (top right)
+4. click "save job" and repeat by clicking "Add Job" (top right)
 
 Open your website by clicking the button "Open app" (location: top right) and see if it works to "set count" or "add count" on pods/sensors/insulin
 
