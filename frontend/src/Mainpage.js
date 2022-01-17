@@ -14,6 +14,7 @@ export default function Mainpage({ Typ }) {
     const nrOfLogsToShow = 10;
     useEffect(async () => {
         setIsLoading(true);
+        setLastActions(null);
         await getCount();
     }, [navigate]) //run only on navigation change!    
 
