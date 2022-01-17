@@ -1,16 +1,17 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import { BallTriangle } from  'react-loader-spinner'
 
 export default function Mainpage({ Typ }) {
     const navigate = useNavigate();
     const [nrToAdd, setNrToAdd] = useState();
     const [nrTotal, setNrTotal] = useState();
     const [totalCount, setTotalCount] = useState("-");
-    const [buttonActive, setbuttonActive] = useState(true);
-    const [lastActions, setlastActions] = useState();
-    const nrOfLogsToShow = 10;
+    const [lastActions, setLastActions] = useState();
+    const [isLoading, setIsLoading] = useState(true);
 
+    const nrOfLogsToShow = 10;
     useEffect(async () => {
         setTotalCount("-")
         await getCount();
@@ -29,7 +30,7 @@ export default function Mainpage({ Typ }) {
             }
             console.log("adding " + add);
             setNrToAdd("");
-            setbuttonActive(false);
+            setIsLoading(true);
             if (isNaN(+add)) {
                 console.log("not a number!");
                 alert("Not a number!")
@@ -40,14 +41,14 @@ export default function Mainpage({ Typ }) {
         } catch (e) {
             console.log(e);
         } finally {
-            setbuttonActive(true);
+            setIsLoading(false);
         }
     };
     const setCountTotal = async () => {
         try {
             let countTotal = nrTotal;
             setNrTotal("");
-            setbuttonActive(false);
+            setIsLoading(true);
 
             if (isNaN(+countTotal)) {
                 console.log("not a number!");
@@ -59,7 +60,7 @@ export default function Mainpage({ Typ }) {
         } catch (e) {
             console.log(e);
         } finally {
-            setbuttonActive(true);
+            setIsLoading(false);
         }
     };
     const getCount = async () => {
@@ -72,6 +73,7 @@ export default function Mainpage({ Typ }) {
             if (res.data.Count !== undefined) {
                 console.log("Count: " + res.data.Count);
                 setTotalCount(res.data.Count);
+                setIsLoading(false);
             }
 
         } catch (e) {
@@ -80,13 +82,14 @@ export default function Mainpage({ Typ }) {
     };
     const getlastlogs = async (nrOfLogs) => {
         try {
+            setLastActions(null);
             console.log("getLastLogs of: " + Typ);
             console.log('/getlastlogs/' + Typ + '/' + nrOfLogs);
             const res = await axios.get('/getlastlogs/' + Typ + '/' + nrOfLogs);
 
             if (res.data !== undefined) {
                 //console.log("lastLogs: " + res.data);
-                setlastActions(res.data);
+                setLastActions(res.data);
             }
 
         } catch (e) {
@@ -116,16 +119,17 @@ export default function Mainpage({ Typ }) {
                 In storage
             </text>
             <text style={{ fontSize: "70px" }}>
-                {totalCount}
+                {isLoading ? <BallTriangle color="#00BFFF" height={60} width={60} /> : totalCount}
             </text>
             <br />
 
             <div className="logg">
-                {lastActions ? <>
+                {lastActions && !isLoading ? 
+                <>
                     Last detected {Typ} change
                     <br />
                     {lastActions[0].LastKnownChange.substring(0, 19).replace("T", " ") + " (UTC)"}
-                </> : ""
+                </> : <><br /><br /></>
                 }
             </div>
             <br />
@@ -140,7 +144,7 @@ export default function Mainpage({ Typ }) {
                     />
                     <button
                         onClick={() => updateCountAddition(null)}
-                        disabled={!buttonActive} >OK</button>
+                        disabled={isLoading} >OK</button>
                 </div>
                 <br />
                 <div title={"Sets current number of " + Typ + "s in stash (positive number)"}>
@@ -152,29 +156,28 @@ export default function Mainpage({ Typ }) {
                     />
                     <button
                         onClick={setCountTotal}
-                        disabled={!buttonActive} >OK</button>
+                        disabled={isLoading} >OK</button>
                 </div>
             </div>
             <br />
             <div title={"Same as Add " + Typ + "s above, but with predefined values"}>
                 <p style={{ textAlign: 'center' }}>Quick-add</p>
-                <button onClick={() => updateCountAddition(-1)} disabled={!buttonActive}>-1</button>
-                <button onClick={() => updateCountAddition(1)} disabled={!buttonActive}>1</button>
-                <button onClick={() => updateCountAddition(5)} disabled={!buttonActive}>5</button>
+                <button onClick={() => updateCountAddition(-1)} disabled={isLoading}>-1</button>
+                <button onClick={() => updateCountAddition(1)} disabled={isLoading}>1</button>
+                <button onClick={() => updateCountAddition(5)} disabled={isLoading}>5</button>
 
                 <br />
                 <br />
-                <button onClick={() => updateCountAddition(10)} disabled={!buttonActive}>10</button>
-                <button onClick={() => updateCountAddition(20)} disabled={!buttonActive}>20</button>
-                <button onClick={() => updateCountAddition(40)} disabled={!buttonActive}>40</button>
+                <button onClick={() => updateCountAddition(10)} disabled={isLoading}>10</button>
+                <button onClick={() => updateCountAddition(20)} disabled={isLoading}>20</button>
+                <button onClick={() => updateCountAddition(40)} disabled={isLoading}>40</button>
             </div>
 
             <br />
             <br />
             History
-            <div className="logg">
-                {lastActions?.map((it) => <text >{it.date.substring(0, 19).replace("T", " ") + " (UTC)"}, Count: {it.Count}, ({it.diff < 0 ? it.diff : "+" + it.diff}, {it.Source})<br /> </text>)}
-                {/* &#40;&#41; */}
+            <div className="logg" >
+                {lastActions?.map((it) => <text >{it.date.substring(0, 19).replace("T", " ") + " (UTC)"}, count: {it.Count}, diff: {it.diff} <br /> </text>)}
             </div>
             <br />
             {/* <text>Email to: {process.env.EMAIL_TO}</text>
