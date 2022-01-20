@@ -22,7 +22,8 @@ function sendEmail(CountLeft, Typ) {
     htmlContent += '<a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=-1" style="margin-right:60px; font-size: 30px;">-1</a><a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=1" style="margin-right:60px; font-size: 30px;">1</a>';
     htmlContent += '<a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=5" style="margin-right:55px; font-size: 30px;">5</a><a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=10" style="margin-right:60px; font-size: 30px;">10</a><br/><br/>';
     htmlContent += '<a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=20" style="margin-right:45px; font-size: 30px;">20</a><a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=30" style="margin-right:45px; font-size: 30px;">30</a>';
-    htmlContent += '<a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=40" style="margin-right:45px; font-size: 30px;">40</a><a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=50" style="margin-right:45px; font-size: 30px;">50</a>';
+    htmlContent += '<a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=40" style="margin-right:45px; font-size: 30px;">40</a><a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=50" style="margin-right:45px; font-size: 30px;">50</a><br/><br/>';
+    htmlContent += 'Om servern gått i dvala, kan det ta ~20s innan du får svar... det är ok!'
     htmlContent += '</div>';
 
     var mailOptions = {
@@ -40,7 +41,8 @@ function sendEmail(CountLeft, Typ) {
         htmlContent += '<a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=-1" style="margin-right:60px; font-size: 30px;">-1</a><a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=1" style="margin-right:60px; font-size: 30px;">1</a>';
         htmlContent += '<a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=5" style="margin-right:55px; font-size: 30px;">5</a><a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=10" style="margin-right:60px; font-size: 30px;">10</a><br/><br/>';
         htmlContent += '<a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=20" style="margin-right:45px; font-size: 30px;">20</a><a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=30" style="margin-right:45px; font-size: 30px;">30</a>';
-        htmlContent += '<a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=40" style="margin-right:45px; font-size: 30px;">40</a><a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=50" style="margin-right:45px; font-size: 30px;">50</a>';
+        htmlContent += '<a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=40" style="margin-right:45px; font-size: 30px;">40</a><a href="' + url + '/addtocount?typ=' + Typ + '&source=email&nr=50" style="margin-right:45px; font-size: 30px;">50</a><br/><br/>';
+        htmlContent += 'If the server is ideling, it can take ~20s before you get an answer... that\'s ok!'
         htmlContent += '</div>';
         
         mailOptions = {

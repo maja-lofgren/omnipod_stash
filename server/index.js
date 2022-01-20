@@ -135,14 +135,6 @@ app.get('/setcount', async function (req, res) {
 });
 
 
-// //reset:
-// app.get('/resetcount/:typ', async function (req, res) {
-
-//     await dbhelper.resetCount(req.params.typ);
-
-//     res.set('Content-Type', 'application/json');
-//     res.send('{"' + req.params.typ + '-Count":0"}');
-// });
 // All remaining requests return the React app, so it can handle routing.
 app.get('*', function (request, response) {
     response.sendFile(path.resolve(__dirname, '../frontend/build', 'index.html'));
