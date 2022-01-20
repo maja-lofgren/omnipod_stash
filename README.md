@@ -31,14 +31,20 @@ OBS if you use one of the links in the email when the app is ideling (sleeping),
 1. Make a fork of this git-repo to your github 
     - You must be logged in to your github account!
     - Fork button (located top right)
+    ![tabs](./Assets/fork.png)
 2. log into your account at [heroku.com](https://dashboard.heroku.com/) (same as you use to host NightScout)
 3. Click the "New" button (upper right side) => "Create new app"
 4. Choose App-name which will be the url to the site for example: mynamediabetesstash (url will be: mynamediabetesstash.herokuapp.com)
 5. leave region to United States => create app
-6. Under tab "Deploy" and left side "Deployment method" choose GitHub
+6. Open up the "Deploy"-tab
+![tabs](./Assets/tabs.png)
+7. Scroll down to "Deployment method" (left side) choose GitHub
+![deploy method](./Assets/deploy_method.png)
 7. Since you're already connected from your Nigtscout-app - click purple "Search" button to list all of your repos, locate the omnipod-stash-fork-repo and hit the "Connect" button that appears next to it.
 8. Scroll down and enable the "Enable Automatic Deploy" (to tell Heroku to automatically trigger an installation of your fork when you decide to pull all the update from my github-fork to yours (bug-fixes etc))
+![auto deploy](./Assets/auto_deploy.png)
 9. Scroll down to the very bottom and hit "Deploy Branch" to install the app on Heroku. 
+![deploy](./Assets/deploy_branch.png)
 
 ## Enter config vars
 Now you need to enter the Config-vars (same as you did with Nightscout)
@@ -54,6 +60,8 @@ Now you need to enter the Config-vars (same as you did with Nightscout)
 
     - **FROM** = **ordernewpods** (use this if you do not know what you're doing...)
     - **EMAIL_TO** = (comma separated list of emails to get notification)
+    
+![config vars](./Assets/config_vars.png)
 
     Optional parameters (3 is default value for these ones => less than 3 pods/sensors/insulin will send you and email per day!)
     - **LANGUAGE** = ENG (deafults to email text in swedish...)
@@ -69,9 +77,10 @@ To get you app to update/check your stash once a day, you need to setup a Task s
 2. Make sure you have the "Standard - Free"-plan selected (default) and press "Submit order from" 
 3. Click on the newly added "Heroku Scheduler" (opens up new page)
 4. "Create job"
-5. "Every day at..." - and select a time 
+5. "Every day at..." - and select a time (obs! UTC = London time!)
 6. after the $ paste "runAllTasks" (without the "")
 7. click "save job"
+![email](./Assets/task.png)
 
 **If you dont want the service to notify you of all three types**, you can **instead** specify the events that you want. 
 (remove or reuse/rename the event you created for "runAllEvents")
