@@ -60,8 +60,8 @@ Now you need to enter the Config-vars (same as you did with Nightscout)
 
     - **FROM** = **ordernewpods** (use this if you do not know what you're doing...)
     - **EMAIL_TO** = (comma separated list of emails to get notification)
-    
-![config vars](./Assets/config_vars.png)
+
+    ![config vars](./Assets/config_vars.png)
 
     Optional parameters (3 is default value for these ones => less than 3 pods/sensors/insulin will send you and email per day!)
     - **LANGUAGE** = ENG (deafults to email text in swedish...)
